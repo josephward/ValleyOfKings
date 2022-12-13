@@ -17,22 +17,26 @@ class Being {
 		Being(string name, string type, int HP, int baseDmg, int baseHeal = 0);
 
 		//Status values
-		int turn_order = 0;
 		bool is_stunned = 0;
 		bool is_ko = 0;
+		int turn_order;
+		int max_HP;
 
 		//Combat Functions
-		void takeDmg(int dmg);	//Receive damage function
-		int std_attack();		//Basic attack
-		int std_heal();			//Basic heal
+		void takeDmg(int dmg);							//Receive damage function
+		void beHealed(int heal);						//Be Healed function
+		void std_attack(Being& target, int modifier);	//Basic attack
+		void std_heal(Being& target, int modifier);		//Basic heal
+		void print_info();								//Prints basic info for use in combat
 
 		//Getters
 		string get_name();
 		int get_HP();
+		
 
 		// Setters
 		void stun();
 		void unstun();
-		int set_being_order(int order);
+		int set_turn_order(int order);
 };
 
