@@ -6,10 +6,10 @@ class Being {
 
 	private:
 		string name;	//Name of the being
+		string type;	//Type of being (character, undead, boss, etc).
 		int HP;			//Hit points of the being
 		int baseDmg;	//Unmodified damage of the being
 		int baseHeal;	//Unmodified healing factor of the being
-		string type;	//Type of being (character, undead, boss, etc).
 		//vector<Action> actionlist; vector of possible extra actions that can be done
 
 	public:
@@ -19,6 +19,7 @@ class Being {
 		//Status values
 		bool is_stunned = 0;
 		bool is_ko = 0;
+		bool is_mind_controlled = 0;
 		int turn_order;
 		int max_HP;
 
