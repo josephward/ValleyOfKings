@@ -2,12 +2,8 @@
 #include "Being.h"
 
 //Constructor Function for Being
-Being::Being(string b_name, string b_type, int b_HP, int b_baseDmg, int b_baseHeal) {
-	name = b_name;
-	type = b_type;
-	HP = b_HP;
-	baseDmg = b_baseDmg;
-	baseHeal = b_baseHeal;
+Being::Being(const string b_name, const string b_type, int b_HP, int b_baseDmg, int b_baseHeal):
+	name(b_name), type(b_type), HP(b_HP), baseDmg(b_baseDmg), baseHeal(b_baseHeal){
 	max_HP = HP;
 }
 
@@ -52,13 +48,13 @@ void Being::beHealed(int heal) {
 }
 
 //Calls the attack function for the standard amount
-void Being::std_attack(Being& target, int modifier=0) {
-	target.takeDmg(baseDmg+modifier);
+void Being::std_attack(Being& target, int modifier) {
+	target.takeDmg(baseDmg + modifier);
 }
 
 //Calls the healing function for the standard amount
-void  Being::std_heal(Being& target, int modifier=0) {
-	target.beHealed(baseHeal+modifier);
+void  Being::std_heal(Being& target, int modifier) {
+	target.beHealed(baseHeal + modifier);
 }
 
 //Getters
@@ -95,9 +91,4 @@ void Being::stun() {
 //Unstuns the being
 void Being::unstun() {
 	is_stunned = 0;
-}
-
-//Set turn order based on input
-int Being::set_turn_order(int order) {
-	turn_order = order;
 }
