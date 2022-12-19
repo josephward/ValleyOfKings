@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <memory>
 using namespace std;
 
 class Being {
@@ -12,7 +13,11 @@ class Being {
 		int baseDmg;		//Unmodified damage of the being
 		int baseHeal;		//Unmodified healing factor of the being
 
+
 	public:
+
+		//Turn Order Vector
+		vector<shared_ptr<Being>> turn_order_vect = {};
 
 		//Status values
 		bool is_stunned = 0;
