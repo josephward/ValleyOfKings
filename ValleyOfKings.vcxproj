@@ -130,6 +130,7 @@
     <ClInclude Include="Being.h" />
     <ClInclude Include="Boss.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="Engine.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Monster.h" />
   </ItemGroup>
@@ -137,6 +138,7 @@
     <ClCompile Include="Being.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="MainLoop.cpp" />
     <ClCompile Include="Monster.cpp" />
