@@ -1,35 +1,21 @@
 #pragma once
-#include <string>
-using namespace std;
+#include <map>
+#include "Being.h"
+#include "Character.h"
 
-//Class the models the monsters. Allows them to get object attributes, be stunned, take and give damage, ect.
-class Monster {
-
-	private:
-		//Monster variables
-		string name;	// Name of Monster, 
-		int HP;			// Health Points
-		int baseDmg;	// Damage w/o modifiers
-		
+//Class that both generates monster objects, and handles the vector of pointers of monsters.
+class Monster : public Being {
 
 	public:
-		//Contructor Function
-		Monster(string name, int HP, int baseDmg);
-
-		//Stat values
-		int turn_order = 0;
-		bool is_stunned = 0;
+		//Constructor
+		Monster(const string name, const string type, int HP, int baseDmg, int baseHeal = 0);
 		
 		//Combat Functions
-		void takeDmg(int Dmg);
-		int std_attack();
+		void command_the_dead(vector<shared_ptr<Monster>>& monstVect); //Nomarch Action
+		void stun_character(Character* target); //Sphinx/Hippo Action
+		static void masterMonsterAI(Monster* current_turn, int option);
 
-		// Getters
-		string get_name();
-		int get_HP();
-
-		// Setters
-		void stun();
-		void unstun_monster();
-		int set_unit_order(int order);
+		//Other Functions
+		shared_ptr<Monster> genMonster(int option);
+		vector<shared_ptr<Monster>> monsterVect = {};
 };
