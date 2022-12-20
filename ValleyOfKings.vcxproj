@@ -140,7 +140,6 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameState.cpp" />
-    <ClCompile Include="MainLoop.cpp" />
     <ClCompile Include="Monster.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

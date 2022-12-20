@@ -1,0 +1,17 @@
+Difficulty
+1
+Gold Amount
+1000
+Level Completed
+0
+Upgrade Points
+0
+Infantry
+1
+Cultist
+0
+Healer
+0
+Druid
+1
+Item Collection

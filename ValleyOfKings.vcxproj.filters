@@ -41,9 +41,6 @@
     <ClCompile Include="Monster.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MainLoop.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Being.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

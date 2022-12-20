@@ -1,0 +1,7 @@
+Difficulty
+1
+Gold Amount
+1000
+Level Completed
+0
+Upgrade Points

@@ -1,3 +1,4 @@
+/*
 #include <fstream>
 #include <vector>
 #include <string>
@@ -565,87 +566,4 @@ void combat_turns(vector<Monster> &monst_vect, vector<Character> &char_vect) {
 		x++;
 	}
 }
-
-//*****************************Generation Functions*****************************
-//These functions will generate vectors of Characters or Monsters based on preset conditions
-
-//Sets up 4 character objects with basic values, then reads them into the char_vect for ease of access
-vector<Character> init_cast() {
-	char_vect.clear(); //Clears any extra data
-	//Sets up the cast for the initial game creation
-	Character infantry = Character("Quintus", 16, 6, 0);		//Initial Infantry Class
-	Character cultist = Character("Nysa", 12, 4, 0);			//Initial Cultist Class
-	Character druid = Character("Ganna", 12, 4, 0);				//Initial Druid Class
-	Character healer = Character("Paltibaal", 12, 4, 6);		//Initial Healer Class
-
-	//Put the cast into the character vector to be referenced
-	char_vect.push_back(infantry);
-	char_vect.push_back(cultist);
-	char_vect.push_back(druid);
-	char_vect.push_back(healer);
-
-	//Print the vector of created characters, then return the vector
-	print_units(char_vect);
-	return(char_vect);
-}
-
-//Generate monsters for the easy/tutorial mode
-vector<Monster> gen_basic_squad_3() {
-	monst_vect.clear(); //Clear previous monsters
-	//Generates three basic monsters. Low health and damage.
-	Monster monster1 = Monster("1st Undead Soldier", 8, 3);
-	Monster monster2 = Monster("2nd Undead Soldier", 8, 3);
-	Monster monster3 = Monster("3rd Undead Soldier", 8, 3);
-
-	//Add each monster to the monster vector
-	monst_vect.push_back(monster1);
-	monst_vect.push_back(monster2);
-	monst_vect.push_back(monster3);
-
-	//Print and return the created vector
-	print_units(monst_vect);
-	return monst_vect;
-}
-
-//Generate monsters for the medium mode
-vector<Monster> gen_basic_squad_4() {
-	monst_vect.clear(); //Clear previous monsters
-	//Generates four basic monsters. Low health and damage.
-	Monster monster1 = Monster("1st Undead Soldier", 10, 4);
-	Monster monster2 = Monster("2nd Undead Soldier", 10, 4);
-	Monster monster3 = Monster("3rd Undead Soldier", 10, 4);
-	Monster monster4 = Monster("4th Undead Soldier", 10, 4);
-
-	//Add each monster to the monster vector
-	monst_vect.push_back(monster1);
-	monst_vect.push_back(monster2);
-	monst_vect.push_back(monster3);
-	monst_vect.push_back(monster4);
-
-	//Print and return the created vector
-	print_units(monst_vect);
-	return monst_vect;
-}
-
-//Generate monsters for the impossible mode
-vector<Monster>  gen_capt_squad_5() {
-	monst_vect.clear(); //Clear previous monsters
-
-	//Generates three basic monsters and a captain. Low health and damage.
-	Monster monster1 = Monster("1st Undead Soldier", 10, 4);
-	Monster monster2 = Monster("2nd Undead Soldier", 10, 4);
-	Monster monster3 = Monster("3rd Undead Soldier", 10, 4);
-	Monster monster5 = Monster("4th Undead Soldier", 10, 4);
-	Monster monster4 = Monster("Undead Squad Leader", 16, 6);
-
-	//Add each monster to the monster vector
-	monst_vect.push_back(monster1);
-	monst_vect.push_back(monster2);
-	monst_vect.push_back(monster3);
-	monst_vect.push_back(monster4);
-	monst_vect.push_back(monster5);
-
-	//Print and return the created vector
-	print_units(monst_vect);
-	return monst_vect;
-}
+*/
