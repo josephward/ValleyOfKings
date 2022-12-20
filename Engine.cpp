@@ -1,10 +1,16 @@
 #include "Engine.h"
 
+//Game Engine Vectors
 vector<shared_ptr<Being>> turn_order_vect = {};
 vector<shared_ptr<Being>> characterVect = {};
-vector<vector<int>> upgradeMatrix = {};
 vector<string> itemvect{}; //TODO: Add the Item class in
-string current_save_name = "";
+
+//Setup for Upgrade Matrix
+vector<int> m1{ 0 }; //Infantry
+vector<int> m2{ 0 }; //Cultist
+vector<int> m3{ 0 }; //Healer
+vector<int> m4{ 0 }; //Druid
+vector<vector<int>> upgradeMatrix {m1, m2, m3, m4};
 
 //State Variables for the Save File
 int DIFFICULTY_LEVEL = 1;
@@ -258,15 +264,9 @@ void load_game(int savefile) {
 
 	//Load in the data from the save file
 
-	cout << "DL: " << DIFFICULTY_LEVEL << endl << "GS: " << GOLD_STASH << endl;
-	cout << "LB: " << LEVEL_BEATEN << endl << "UP: " << UPGRADE_POINTS << endl;
-
 	//Load in status variables
 	input >> garb >> DIFFICULTY_LEVEL >> garb >> GOLD_STASH
 		>> garb >> LEVEL_BEATEN >> garb >> UPGRADE_POINTS;
-
-	cout << "\nDL: " << DIFFICULTY_LEVEL << endl << "GS: " << GOLD_STASH << endl;
-	cout << "LB: " << LEVEL_BEATEN << endl << "UP: " << UPGRADE_POINTS << endl;
 
 	//Load in infantry variables
 	input >> garb >> infantry_upgrade;
@@ -335,25 +335,15 @@ void save_game(int savefile) {
 	//Write the save data to the selected file
 	output << "Difficulty" << endl << DIFFICULTY_LEVEL;
 	output << endl << "Gold Amount"		<< endl << GOLD_STASH;
-	cout << "Check!" << endl;
 	output << endl << "Level Completed" << endl << LEVEL_BEATEN;
-	cout << "Check!" << endl;
 	output << endl << "Upgrade Points"	<< endl	<< UPGRADE_POINTS;
-	cout << "Check!" << endl;
-	cout << UPGRADE_POINTS << " " << upgradeMatrix[0][0];
 	output << endl << "Infantry"		<< endl << upgradeMatrix[0][0];
-	cout << "Check!" << endl;
 	output << endl << "Cultist"			<< endl << upgradeMatrix[1][0];
-	cout << "Check!" << endl;
 	output << endl << "Healer"			<< endl << upgradeMatrix[2][0];
-	cout << "Check!" << endl;
 	output << endl << "Druid"			<< endl << upgradeMatrix[3][0];
-	cout << "Check!" << endl;
 	output << endl << "Item Collection" << endl << item_str;
 	
-	cout << "Check!" << endl;
-
-	output.close(); //Closes the file.
+	output.close(); //Closes the file
 }
 
 //Creates or overwrites a save file for a new game to be played in
@@ -378,7 +368,7 @@ void new_game(int savefile, int difficulty_level) {
 
 	//Write the save data to the selected file
 	output << "Difficulty" << endl << difficulty_level;
-	output << endl << "Gold Amount" << endl << 100;
+	output << endl << "Gold Amount" << endl << 0;
 	output << endl << "Level Completed" << endl << 0;
 	output << endl << "Upgrade Points" << endl << 0;
 	output << endl << "Infantry" << endl << "0";
@@ -388,23 +378,4 @@ void new_game(int savefile, int difficulty_level) {
 	output << endl << "Item Collection";
 
 	output.close(); //Closes the file
-}
-
-int main() {
-	/*
-	load_game(1);
-	upgradeMatrix[0][0] = 1;
-	upgradeMatrix[3][0] = 1;
-	GOLD_STASH = 1000;
-	cout << "----\n";
-	save_game(1);
-	cout << "----\n";
-	load_game(1);
-	cout << upgradeMatrix[0][0] << endl;
-	cout << upgradeMatrix[3][0] << endl;
-	cout << GOLD_STASH << endl;
-	*/
-
-	GOLD_STASH = 1000;
-	save_game(2);
 }
