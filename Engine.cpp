@@ -1,10 +1,5 @@
 #include "Engine.h"
 
-//Game Engine Vectors
-vector<shared_ptr<Being>> turn_order_vect = {};
-vector<shared_ptr<Being>> characterVect = {};
-vector<string> itemvect{}; //TODO: Add the Item class in
-
 //Setup for Upgrade Matrix
 vector<int> m1{ 0 }; //Infantry
 vector<int> m2{ 0 }; //Cultist
@@ -48,6 +43,30 @@ int checkVect(vector<int> vect) {
 
 	return sum;
 }
+
+int verify_input(int lower, int upper) {
+	//Ask for input
+	int response = 0;
+	cin >> response;
+	//While the input is the incorrect type, print an error message and re-ask
+	while (cin.fail()) {
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout << "Error, invalid type of input. Please type the number related to the action you want to do.\nExample: to select '[1] Attack', type 1 and hit enter." << endl;
+		cin >> response;
+	}
+	//While the input is out of bounds, print an error message and re-ask
+	while (response > upper || response < lower) {
+		cin.clear();
+		cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		cout << "Error, out of bounds input. Please type in a number that is a valid option and hit enter." << endl;
+		cin >> response;
+
+	}
+	//return the integer response
+	return response;
+}
+	
 
 //--------------------------------------Boss Functions--------------------------------------
 
