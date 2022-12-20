@@ -8,13 +8,14 @@
 //Game Engine Vectors
 vector<shared_ptr<Being>> turn_order_vect = {};
 vector<shared_ptr<Being>> characterVect = {};
-vector<string> filenames = ("Save_File_1.txt", "Save_File_2.txt", "Save_File_3.txt");
+vector<string> filenames{ "Save_File_1.txt", "Save_File_2.txt", "Save_File_3.txt" };
 vector<string> itemvect{}; //TODO: Add the Item class in
 
 //General Functions
 void title_art();
 int checkVect(vector<int> vect);
 int verify_input(int lower, int upper);
+void clearscreen();
 
 //Boss Functions
 shared_ptr<Being> genBoss(int option);

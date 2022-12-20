@@ -11,12 +11,6 @@ void level();		//Handles everything to run the levels
 void combat();		//The juicy part of the game
 void win_level();	//What happens if you win a level
 void lose_level();	//What happens if you lose a level
-void clearscreen();
-
-//Function that clears the screen
-void clearscreen() {
-
-}
 
 //The main function for the game, but also the function for the main menu
 void main() {
@@ -52,6 +46,7 @@ void main() {
 		}
 		else {
 			load_game(select);
+			clearscreen();
 			homebase();
 		}
 
@@ -62,6 +57,7 @@ void main() {
 	else if (response == 2) {
 		int select = verify_input(1,3);
 		new_game(select);
+		clearscreen();
 		start_new_game();
 	}
 }

@@ -44,6 +44,7 @@ int checkVect(vector<int> vect) {
 	return sum;
 }
 
+//Function makes sure that the input is correct for type and range
 int verify_input(int lower, int upper) {
 	//Ask for input
 	int response = 0;
@@ -65,6 +66,12 @@ int verify_input(int lower, int upper) {
 	}
 	//return the integer response
 	return response;
+}
+
+//Function that clears the screen
+//Use this resource: https://learn.microsoft.com/en-us/windows/console/clearing-the-screen
+void clearscreen() {
+
 }
 	
 
