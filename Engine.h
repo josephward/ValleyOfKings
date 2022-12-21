@@ -1,15 +1,24 @@
 #pragma once
+#define NOMINMAX
 #include <fstream>
 #include <iostream>
+#include <chrono>
+#include <thread>
+#include <Windows.h>
 #include "Monster.h"
 #include "Character.h"
 #include "Boss.h"
+#undef NOMINMAX
+
+using namespace this_thread;
+using namespace chrono;
+using namespace std;
 
 //Game Engine Vectors
-vector<shared_ptr<Being>> turn_order_vect = {};
-vector<shared_ptr<Being>> characterVect = {};
-vector<string> filenames{ "Save_File_1.txt", "Save_File_2.txt", "Save_File_3.txt" };
-vector<string> itemvect{}; //TODO: Add the Item class in
+extern vector<shared_ptr<Being>> turn_order_vect;
+extern vector<shared_ptr<Being>> characterVect;
+extern vector<string> filenames;
+extern vector<string> itemvect; //TODO: Add the Item class in
 
 //General Functions
 void title_art();

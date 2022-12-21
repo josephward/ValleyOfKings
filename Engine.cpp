@@ -1,5 +1,13 @@
 #include "Engine.h"
 
+//Game Engine Vectors
+vector<shared_ptr<Being>> turn_order_vect{};
+vector<shared_ptr<Being>> characterVect{};
+vector<string> itemvect{}; //TODO: Add the Item class in
+
+//Setup for File Name
+vector<string> filenames{ "Save_File_1.txt", "Save_File_2.txt", "Save_File_3.txt" };
+
 //Setup for Upgrade Matrix
 vector<int> m1{ 0 }; //Infantry
 vector<int> m2{ 0 }; //Cultist
@@ -49,6 +57,7 @@ int verify_input(int lower, int upper) {
 	//Ask for input
 	int response = 0;
 	cin >> response;
+
 	//While the input is the incorrect type, print an error message and re-ask
 	while (cin.fail()) {
 		cin.clear();
@@ -56,6 +65,7 @@ int verify_input(int lower, int upper) {
 		cout << "Error, invalid type of input. Please type the number related to the action you want to do.\nExample: to select '[1] Attack', type 1 and hit enter." << endl;
 		cin >> response;
 	}
+
 	//While the input is out of bounds, print an error message and re-ask
 	while (response > upper || response < lower) {
 		cin.clear();
@@ -69,12 +79,12 @@ int verify_input(int lower, int upper) {
 }
 
 //Function that clears the screen
-//Use this resource: https://learn.microsoft.com/en-us/windows/console/clearing-the-screen
+//Using the first method from the following resource
+//https://www.geeksforgeeks.org/how-to-clear-console-in-cpp/
 void clearscreen() {
-
+	system("cls");
 }
 	
-
 //--------------------------------------Boss Functions--------------------------------------
 
 shared_ptr<Being> genBoss(int option) {
