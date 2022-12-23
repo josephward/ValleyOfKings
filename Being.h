@@ -16,9 +16,6 @@ class Being {
 
 	public:
 
-		//Turn Order Vector
-		vector<shared_ptr<Being>> turn_order_vect = {};
-
 		//Status values
 		bool is_stunned = 0;
 		bool is_ko = 0;

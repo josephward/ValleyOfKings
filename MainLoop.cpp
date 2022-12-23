@@ -1,4 +1,4 @@
-#include "GameState.h"
+
 #include <iostream>
 #include <chrono>
 #include <thread>
@@ -113,34 +113,3 @@ void skirmish() {
 
 }
 
-//Function that prints the title card for the game art
-//Art generated from https://patorjk.com/software/taag/#p=testall&f=Doh&t=Valley%20of%20Kings using Colossal
-void title_art() {
-	std::cout << endl;
-	std::cout
-		<< " 888     888         888 888                                  .d888      888    d8P  d8b                            " << endl
-		<< " 888     888         888 888                                 d88P        888   d8P   Y8P                            " << endl
-		<< " 888     888         888 888                                 888         888  d8P                                   " << endl
-		<< " Y88b   d88P 8888b.  888 888  .d88b.  888  888       .d88b.  888888      888d88K     888 88888b.   .d88b.  .d8888b  " << endl
-		<< "  Y88b d88P      88b 888 888 d8P  Y8b 888  888      d88  88b 888         8888888b    888 888  88b d88P 88b 88K      " << endl
-		<< "   Y88o88P  .d888888 888 888 88888888 888  888      888  888 888         888  Y88b   888 888  888 888  888  Y8888b. " << endl
-		<< "    Y888P   888  888 888 888 Y8b.     Y88b 888      Y88..88P 888         888   Y88b  888 888  888 Y88b 888      X88 " << endl
-		<< "     Y8P     Y888888 888 888   Y8888    Y88888        Y88P   888         888    Y88b 888 888  888   Y88888  88888P  " << endl
-		<< "                                           888                                                         888          " << endl
-		<< "                                      Y8b d88P                                                    Y8b d88P          " << endl
-		<< "                                        Y88P                                                        Y88P            " << endl << endl;
-	sleep_for(milliseconds(500));
-}
-
-//Main function for the program
-int main() {
-	title_art();
-	srand(time(0)); //sets the seed for the random number generator
-	skirmish();
-	cout << "\nThank you for playing Valley of Kings. This was made by Eero Ward in November 2022. All rights reserved.";
-	
-	//End loop that keeps the program open so the user can review the game
-	while (true) {
-		sleep_for(milliseconds(10000));
-	}
-}
