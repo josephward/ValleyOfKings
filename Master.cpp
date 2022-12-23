@@ -10,23 +10,29 @@ void level();						//Handles everything to run the levels
 void combat();						//The juicy part of the game
 void win_level();					//What happens if you win a level
 void lose_level();					//What happens if you lose a level
+void intro_flavortext();				//The Introduction to the Game
+void tutorial();
 
 void start_new_game(int select) {
 	new_game(select);
+	intro_flavortext();
+	homebase();
 }
 
-void homebase(int select) {
-	load_game(select);
+void homebase() {
+	
 }
 
 //The main function for the game, but also the function for the main menu
 void main() {	
-	title_art();
-	cout << "[1] Load Game\n[2] New Game\n";
-	int response = verify_input(1,2);
-	bool exit = 0;
-
 	while (exit == 0) {
+
+		//Splash Screen
+		title_art();
+		cout << "[1] Load Game\n[2] New Game\n";
+		int response = verify_input(1, 2);
+		bool exit = 0;
+
 		//Load Game Response
 		if (response == 1) {
 			cout << "\nSelect which Save File you would like to load";
@@ -77,13 +83,14 @@ void main() {
 
 			//Either Load the game or exit to main menu
 			if (select == 4) {
-				exit = 1;
+				//Doesn't change the exit state, meaning the function repeats
 				clearscreen();
 			}
 			else {
 				exit = 1;
 				clearscreen();
-				homebase(select);
+				load_game(select);
+				homebase();
 				
 			}
 
