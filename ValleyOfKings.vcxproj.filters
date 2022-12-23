@@ -30,15 +30,15 @@
     <ClInclude Include="Boss.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Character.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Monster.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MainLoop.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Being.cpp">
@@ -48,6 +48,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Boss.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Master.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
