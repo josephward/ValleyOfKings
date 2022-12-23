@@ -37,7 +37,10 @@ class Being {
 
 		//Getters
 		string get_name();
+		string get_type();
 		int get_HP();
+		int get_Dmg();
+		int get_HealingFactor();
 		
 		// Setters
 		void stun();

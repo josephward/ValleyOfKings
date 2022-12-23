@@ -1,3 +1,4 @@
+/*
 #include <fstream>
 #include <vector>
 #include <string>
@@ -649,3 +650,5 @@ vector<Monster>  gen_capt_squad_5() {
 	print_units(monst_vect);
 	return monst_vect;
 }
+
+*/

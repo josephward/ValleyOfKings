@@ -66,7 +66,19 @@ string Being::get_name() {
 	return name;
 }
 
-//Prints the basic information about the being to aid user in combat
+string Being::get_type() {
+	return type;
+}
+
+int Being::get_Dmg() {
+	return baseDmg;
+}
+
+int Being::get_HealingFactor() {
+	return baseHeal;
+}
+
+//Prints the basic information about the being to aid user in comba
 void Being::print_info() {
 	string status;
 	if (is_ko == 1) {
