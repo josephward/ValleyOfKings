@@ -16,6 +16,5 @@ class Monster : public Being {
 		static void masterMonsterAI(shared_ptr<Monster> current_turn, int option);
 
 		//Other Functions
-		shared_ptr<Monster> genMonster(int option);
 		vector<shared_ptr<Monster>> monsterVect = {};
 };
