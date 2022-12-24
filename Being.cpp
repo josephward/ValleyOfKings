@@ -48,13 +48,13 @@ void Being::beHealed(int heal) {
 }
 
 //Calls the attack function for the standard amount
-void Being::std_attack(Being& target, int modifier) {
-	target.takeDmg(baseDmg + modifier);
+void Being::std_attack(shared_ptr<Being> target, int modifier) {
+	target->takeDmg(baseDmg + modifier);
 }
 
 //Calls the healing function for the standard amount
-void  Being::std_heal(Being& target, int modifier) {
-	target.beHealed(baseHeal + modifier);
+void  Being::std_heal(shared_ptr<Being> target, int modifier) {
+	target->beHealed(baseHeal + modifier);
 }
 
 //Getters

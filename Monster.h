@@ -11,9 +11,9 @@ class Monster : public Being {
 		Monster(const string name, const string type, int HP, int baseDmg, int baseHeal = 0);
 		
 		//Combat Functions
-		void command_the_dead(vector<shared_ptr<Monster>>& monstVect); //Nomarch Action
-		void stun_character(Character* target); //Sphinx/Hippo Action
-		static void masterMonsterAI(Monster* current_turn, int option);
+		void command_the_dead(vector<shared_ptr<Being>>& monstVect); //Nomarch Action
+		void stun_character(shared_ptr<Character> target); //Sphinx/Hippo Action
+		static void masterMonsterAI(shared_ptr<Monster> current_turn, int option);
 
 		//Other Functions
 		shared_ptr<Monster> genMonster(int option);

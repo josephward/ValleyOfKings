@@ -41,6 +41,7 @@ void title_art() {
 		<< "                                        Y88P                                                        Y88P            " << endl << endl;
 }
 
+//TODO: Either use this code or eliminate it
 //Currently Not Used for Anything
 //Checks if a vector has anything in it
 int checkVect(vector<int> vect) {

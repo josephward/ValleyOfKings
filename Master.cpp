@@ -4,7 +4,7 @@
 
 //Prototype for Areas
 void start_new_game(int select);	//Start from the top
-void homebase(int select);			//The waiting area before combat/market
+void homebase();			//The waiting area before combat/market
 void market();						//Where you can trade gold for items
 void level();						//Handles everything to run the levels
 void combat();						//The juicy part of the game
@@ -20,7 +20,11 @@ void start_new_game(int select) {
 }
 
 void homebase() {
-	
+	return;
+}
+
+void intro_flavortext() {
+	return;
 }
 
 //The main function for the game, but also the function for the main menu

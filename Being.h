@@ -28,8 +28,8 @@ class Being {
 		//Combat Functions
 		void takeDmg(int dmg);								//Receive damage function
 		void beHealed(int heal);							//Be Healed function
-		void std_attack(Being& target, int modifier = 0);	//Basic attack
-		void std_heal(Being& target, int modifier = 0);		//Basic heal
+		void std_attack(shared_ptr<Being> target, int modifier = 0);	//Basic attack
+		void std_heal(shared_ptr<Being> target, int modifier = 0);		//Basic heal
 		void print_info();									//Prints basic info for use in combat
 
 		//Getters

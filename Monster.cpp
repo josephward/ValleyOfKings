@@ -7,7 +7,7 @@ Monster::Monster(const string name, const string type, int HP, int baseDmg, int 
 }
 
 //Special Action for the Nomarch
-void command_the_dead(vector<shared_ptr<Monster>>& monstVect) {
+void Monster::command_the_dead(vector<shared_ptr<Being>>& monstVect) {
 	//Looks through the monstVect for the first thing that has zero hitpoints
 	for (int i = 0; i < monstVect.size(); i++) {
 		int HP_val = monstVect[i]->get_HP();
@@ -16,19 +16,19 @@ void command_the_dead(vector<shared_ptr<Monster>>& monstVect) {
 		if (HP_val == 0) {
 			Monster temp = Monster("Undead Warrior", "Undead", 8, 2);
 			auto ptr = make_shared<Monster>(temp);
-			monstVect[i] = nullptr; //Deconstructs the original object
+			//monstVect[i] = nullptr; //Deconstructs the original object
 			monstVect[i] = ptr;
 		}
 	}
 }
 
 //Special Action for the Sphinx and Hippo
-void stun_character(Character* target) {
+void Monster::stun_character(shared_ptr<Character> target) {
 	target->stun();
 }
 
 //Function that governs the monster's choices during their attack phase
-static void masterMonsterAI(Monster* current_turn, int option) {
+static void masterMonsterAI(shared_ptr<Monster> current_turn, int option) {
 	//Creates a map with each monster to call the related AI functions
 	map<string, int> monsterMap;
 	monsterMap.insert({ "Undead Warrior", 1 });
