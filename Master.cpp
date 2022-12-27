@@ -53,22 +53,53 @@ void intro_flavortext() {
 
 //The function for the main menu, uses a while loop to build it
 void main_menu() {
+	bool exit = 0;
 	while (exit == 0) {
 
 		//Splash Screen
 		title_art();
-		cout << "[1] Load Game\n[2] New Game\n";
-		int response = verify_input(1, 2);
-		bool exit = 0;
+		vector<string> main_menu_str{
+			">> Load Game\n   New Game\n   Options\n",
+			"   Load Game\n>> New Game\n   Options\n"
+		};
+		int response = dynamic_input(main_menu_str);
 
 		//Load Game Response
 		if (response == 1) {
-			cout << "\nSelect which Save File you would like to load";
+			
+			string d_str = "Select which Save File you would like to load.";
+			vector<string> str;
 
+			string temp_str;
+			//Check for valid files
+			//Add each valid file option, and then add empty files
+			//Ex: Save File 1\n   Empty File\n  Save File 3\n
+
+			//Option if there is not a valid option
+			if (str.size() == 0) {
+				response = 2;
+			}
+			//Option for all the valid options
+			else {
+				int response2 = dynamic_input();
+
+				//Option that returns to main menu
+				if (response2 == 4) {
+					//Reload the main menu function
+				}
+				//Option that loads the game
+				else {
+					clearscreen();
+					load_game(response2);
+					homebase();
+				}
+			}
+			
+			/*
 			//Dynamically add options based on which files are avaliable
-			string str = "";
+			vector<string> str;
 			if (filesystem::exists("Save_File_1.txt")) {
-				str += "\n[1] Save File 1";
+				str.push_back("   Save File 1");
 				FILE_NAME = "Save_File_1.txt";
 			}
 			if (filesystem::exists("Save_File_2.txt")) {
@@ -85,59 +116,20 @@ void main_menu() {
 			if (str == "") {
 				str += "There are no valid files to choose from. A new game will be generated.\nOne moment please...";
 			}
-
-			cout << str;
-
-			bool check = 0;
-			int select = 0;
-
-			//If there are no valid save files, start a new save file
-			if (str == "There are no valid files to choose from. A new game will be generated.\nOne moment please...") {
-				sleep_for(milliseconds(1000));
-				clearscreen();
-				goto jump;
-			}
-
-			//Check for valid input
-			while (check == 0) {
-				select = verify_input(1, 3);
-				ifstream file;
-				file.open(filenames[select - 1]);
-				if (file) {
-					check = 1;
-				}
-				else {
-					cout << "\nInvalid input: the save file is no currently being used." <<
-						" Please select another option\n";
-				}
-			}
-
-			//Either Load the game or exit to main menu
-			if (select == 4) {
-				//Doesn't change the exit state, meaning the function repeats
-				clearscreen();
-			}
-			else {
-				exit = 1;
-				clearscreen();
-				load_game(select);
-				homebase();
-
-			}
-
-			//Start a save file 
-			if (false) {
-			jump:
-				exit = 1;
-				start_new_game(1);
-			}
+			*/
+			
 		}
 
 		//New Game Response
-		else if (response == 2) {
+		if (response == 2) {
 			exit = 1;
-			cout << "\n[1] Save File 1\n[2] Save File 2\n[3] Save File 3\n";
-			int select = verify_input(1, 3);
+			vector<string> str{
+				">> Save File 1\n   Save File 2\n   Save File 3\n",
+				"   Save File 1\n>> Save File 2\n   Save File 3\n",
+				"   Save File 1\n   Save File 2\n>> Save File 3\n"
+			};
+
+			int select = dynamic_input(str);
 			clearscreen();
 			start_new_game(select);
 		}
@@ -145,10 +137,7 @@ void main_menu() {
 }
 
 //The main function for the game
-void main() {	
-	string str = "This is some buffered output";
-	buffered_output(str);
-	
+void main() {
 	main_menu();
 	clearscreen();
 	cout << "You shouldn't ever see this message.";

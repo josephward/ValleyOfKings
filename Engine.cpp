@@ -92,7 +92,7 @@ void clearscreen() {
 //Code pulled from a modified version of user93353's answer to: https://stackoverflow.com/questions/24708700/c-detect-when-user-presses-arrow-key
 //Virtual-Key Constant Reference https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes?redirectedfrom=MSDN
 //For future expansion see https://iq.direct/blog/325-how-to-read-direct-mouse-and-keyboard-events-in-c-console-app.html
-int dynamic_input(vector<string> str_vect) {
+int dynamic_input(vector<string> str_vect, string default_message) {
 
 	//Example of a good string vector is:
 	//string str1 = ">> Save File 1\n   Save File 2\n   Save File 3\n";
@@ -101,7 +101,7 @@ int dynamic_input(vector<string> str_vect) {
 	//This allows for each input to flow nicely to the next
 
 	int x = 0;	//Variable to manipulate vector
-	cout << "Use the up/down arrow keys to select an option, then hit enter." << endl;
+	cout << default_message << endl;
 	cout << str_vect[x]; // Inital Value 
 
 	//While loop to provide continuous input until an ending event
@@ -137,7 +137,7 @@ int dynamic_input(vector<string> str_vect) {
 					x = str_vect.size() - 1;
 				}
 				clearscreen();
-				cout << "Use the up/down arrow keys to select an option, then hit enter." << endl;
+				cout << default_message << endl;
 				cout << str_vect[x];
 				break;
 
@@ -149,7 +149,7 @@ int dynamic_input(vector<string> str_vect) {
 					x = 0;
 				}
 				clearscreen();
-				cout << "Use the up/down arrow keys to select an option, then hit enter." << endl;
+				cout << default_message << endl;
 				cout << str_vect[x];
 				break;
 			}

@@ -34,7 +34,7 @@ void title_art();
 int checkVect(vector<int> vect);
 int verify_input(int lower, int upper);
 void clearscreen();
-int dynamic_input(vector<string> str_vect);
+int dynamic_input(vector<string> str_vect, string default_message= "Use the up/down arrow keys to select an option, then hit enter.");
 void buffered_output(string str);
 
 //Boss Functions
