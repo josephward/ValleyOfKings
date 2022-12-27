@@ -29,8 +29,44 @@ void load_save_file(int select) {
 }
 
 void intro_flavortext() {
-	buffered_output("");
-	return;
+	string str;
+
+	buffered_output("If you know you could get rich quick, would you do it?\n", 75);
+	Sleep(1000);
+	buffered_output("Welcome to your team of four fantastic fighters.\n");
+
+	str	+=	string("Quintus: a veteran of the Gallic Wars, and Roman Civil War between Caesar and Pompey. Having done his tour of duty") +
+			string(" he was supposed to retire to his plot of land in North Africa, but he could make himself settle down.") +
+			string(" So he got a loan and started up a group of adventurers to keep the dream going.");
+	
+	buffered_output(str);
+	str.clear();
+
+	str +=	string("\nIcarion: an auxiliary fighter and camp follower on one of the Gallic campaigns. He left the service after Gaul and ") +
+			string("returned to his homeland in Athens. To recover from the horrors of the campaign he entered into the mysteries and ") +
+			string("learned powerful secrets. When Quintus came into town to visit, he could not say no to another adventure.");
+
+	buffered_output(str);
+	str.clear();
+	
+	str += string("\nGanna: is a druid from one of the tribes of the Belgae. With all of the upheaval from Caesar’s conquest in Gaul she ") +
+		string("tried to find a better life by migrating to Rome. To find better work she joined with Quintus’s group. ") +
+		string("She plans to take the gold she gets and return to Gallia Belgica to help support her people.");
+
+	buffered_output(str);
+	str.clear();
+		
+	str += string("\nPaltibaal: is a Carthaginian doctor following the tradition of the school of Cnidus and a long line of doctors and surgeons. ") +
+		string("His family had a practice that was destroyed during the Punic Wars. Understandably, he has some beef with Romans. ") +
+		string("In spite of that Quintus managed to convince him to join their group because of potential for profit.");
+
+	buffered_output(str);
+	str.clear();
+
+	str += string("After meeting up at Alexandria in the lower Nile, the group acquired supplies and chartered a boat down the Nile with a stop in Luxor. ") +
+		string("Using the map Quintus acquired they set up a base camp on the outskirts of the \e[1mValley of Kings\e[0m.");
+
+	Sleep(10000);
 }
 
 void homebase(bool new_game) {
@@ -165,5 +201,6 @@ void main_menu() {
 
 //The main function for the game
 int main() {
+	intro_flavortext();
 	main_menu();
 }
