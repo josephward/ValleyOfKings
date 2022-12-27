@@ -16,6 +16,7 @@ vector<int> m4{ 0 }; //Druid
 vector<vector<int>> upgradeMatrix {m1, m2, m3, m4};
 
 //State Variables for the Save File
+int GAME_STATE1 = 0;
 int DIFFICULTY_LEVEL = 1;
 int GOLD_STASH = 0;
 int LEVEL_BEATEN = 0;
@@ -84,6 +85,76 @@ int verify_input(int lower, int upper) {
 //https://www.geeksforgeeks.org/how-to-clear-console-in-cpp/
 void clearscreen() {
 	system("cls");
+}
+
+//Function that accepts a string of options, and allows the user to 'cycle' through the options
+//Built in 'collaboration' with several online resources
+//Code pulled from a modified version of user93353's answer to: https://stackoverflow.com/questions/24708700/c-detect-when-user-presses-arrow-key
+//Virtual-Key Constant Reference https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes?redirectedfrom=MSDN
+//For future expansion see https://iq.direct/blog/325-how-to-read-direct-mouse-and-keyboard-events-in-c-console-app.html
+int dynamic_input(vector<string> str_vect) {
+
+	//Example of a good string vector is:
+	//string str1 = ">> Save File 1\n   Save File 2\n   Save File 3\n";
+	//string str2 = "   Save File 1\n>> Save File 2\n   Save File 3\n";
+	//string str3 = "   Save File 1\n   Save File 2\n>> Save File 3\n";
+	//This allows for each input to flow nicely to the next
+
+	int x = 0;	//Variable to manipulate vector
+	cout << "Use the up/down arrow keys to select an option, then hit enter." << endl;
+	cout << str_vect[x]; // Inital Value 
+
+	//While loop to provide continuous input until an ending event
+	while (true) {
+
+		//Variables used in the input reading functions below
+		HANDLE hInput = GetStdHandle(STD_INPUT_HANDLE);
+		DWORD NumInputs = 0;
+		DWORD InputsRead = 0;
+		bool running = true;
+		INPUT_RECORD irInput;
+
+		//Functions to get input from the stream
+		//See: https://learn.microsoft.com/en-us/windows/console/readconsoleinput?redirectedfrom=MSDN
+		GetNumberOfConsoleInputEvents(hInput, &NumInputs);
+		ReadConsoleInput(hInput, &irInput, 1, &InputsRead);
+
+		//If statement required to ensure it doesn't return two triggers (one for press down, and one for letting go)
+		if (irInput.Event.KeyEvent.bKeyDown) {
+			//Switch statement that interprets the user inputted virtual-key constant reference 
+			//See the Virtual-Key Constant reference site above for more keys
+			switch (irInput.Event.KeyEvent.wVirtualKeyCode) {
+
+				//Case of what happens when the user selects a value
+			case VK_RETURN:
+				return x;
+
+				//Case of inputting up
+			case VK_UP:
+				x--;
+				//If the x var. goes smaller than 0, go to the max value
+				if (x < 0) {
+					x = str_vect.size() - 1;
+				}
+				clearscreen();
+				cout << "Use the up/down arrow keys to select an option, then hit enter." << endl;
+				cout << str_vect[x];
+				break;
+
+				//Case of inputting down
+			case VK_DOWN:
+				x++;
+				//If the x var. goes bigger than the max size, go to zero
+				if (x > str_vect.size() - 1) {
+					x = 0;
+				}
+				clearscreen();
+				cout << "Use the up/down arrow keys to select an option, then hit enter." << endl;
+				cout << str_vect[x];
+				break;
+			}
+		}
+	}
 }
 	
 //--------------------------------------Boss Functions--------------------------------------
@@ -302,7 +373,7 @@ void load_game(int savefile) {
 	//Load in the data from the save file
 
 	//Load in status variables
-	input >> garb >> DIFFICULTY_LEVEL >> garb >> GOLD_STASH
+	input >> garb >> GAME_STATE1 >> garb >> DIFFICULTY_LEVEL >> garb >> GOLD_STASH
 		>> garb >> LEVEL_BEATEN >> garb >> UPGRADE_POINTS;
 
 	//Load in infantry variables
@@ -370,7 +441,8 @@ void save_game(int savefile) {
 	}
 
 	//Write the save data to the selected file
-	output << "Difficulty" << endl << DIFFICULTY_LEVEL;
+	output << "Game State Variables"	<< endl << GAME_STATE1;
+	output << endl << "Difficulty"		<< endl << DIFFICULTY_LEVEL;
 	output << endl << "Gold Amount"		<< endl << GOLD_STASH;
 	output << endl << "Level Completed" << endl << LEVEL_BEATEN;
 	output << endl << "Upgrade Points"	<< endl	<< UPGRADE_POINTS;

@@ -1,6 +1,9 @@
 #pragma once
 #include <filesystem>
 #include "Engine.h"
+using namespace std;
+
+string FILE_NAME;
 
 //Prototype for Areas
 void start_new_game(int select);	//Start from the top
@@ -20,6 +23,27 @@ void start_new_game(int select) {
 }
 
 void homebase() {
+
+	//Read in the Game state data to see if the player has played before.
+	ifstream input;
+	input.open(FILE_NAME);
+	int garb, GAME_STATE;
+	input >> garb >> GAME_STATE;
+	input.close();
+	
+	int status = 0;
+
+	while (status == 0) {
+		if (GAME_STATE == 1) {
+			//Set up the text for the first time you enter home base.
+		}
+		else {
+
+		}
+	}
+	
+	
+
 	return;
 }
 
@@ -27,8 +51,8 @@ void intro_flavortext() {
 	return;
 }
 
-//The main function for the game, but also the function for the main menu
-void main() {	
+//The function for the main menu, uses a while loop to build it
+void main_menu() {
 	while (exit == 0) {
 
 		//Splash Screen
@@ -45,12 +69,15 @@ void main() {
 			string str = "";
 			if (filesystem::exists("Save_File_1.txt")) {
 				str += "\n[1] Save File 1";
+				FILE_NAME = "Save_File_1.txt";
 			}
 			if (filesystem::exists("Save_File_2.txt")) {
 				str += "\n[2] Save File 2";
+				FILE_NAME = "Save_File_2.txt";
 			}
 			if (filesystem::exists("Save_File_3.txt")) {
 				str += "\n[3] Save File 3";
+				FILE_NAME = "Save_File_3.txt";
 			}
 			if (str != "") {
 				str += "\n[4] Exit to Main Menu\n";
@@ -95,7 +122,7 @@ void main() {
 				clearscreen();
 				load_game(select);
 				homebase();
-				
+
 			}
 
 			//Start a save file 
@@ -115,4 +142,11 @@ void main() {
 			start_new_game(select);
 		}
 	}
+}
+
+//The main function for the game
+void main() {	
+	main_menu();
+	clearscreen();
+	cout << "You shouldn't ever see this message.";
 }

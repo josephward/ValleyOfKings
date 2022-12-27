@@ -1,10 +1,19 @@
 #pragma once
 #define NOMINMAX
+//For reading and writting files
 #include <fstream>
 #include <iostream>
+#include <vector>
+
+//For the time functions
 #include <chrono>
 #include <thread>
-#include <Windows.h>
+
+//For the input function
+#include <stdio.h>
+#include <windows.h>
+
+//Valley of Kings Files
 #include "Monster.h"
 #include "Character.h"
 #include "Boss.h"
@@ -25,6 +34,7 @@ void title_art();
 int checkVect(vector<int> vect);
 int verify_input(int lower, int upper);
 void clearscreen();
+int dynamic_input(vector<string> str_vect);
 
 //Boss Functions
 shared_ptr<Being> genBoss(int option);
