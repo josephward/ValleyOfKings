@@ -146,6 +146,9 @@ void main_menu() {
 
 //The main function for the game
 void main() {	
+	string str = "This is some buffered output";
+	buffered_output(str);
+	
 	main_menu();
 	clearscreen();
 	cout << "You shouldn't ever see this message.";

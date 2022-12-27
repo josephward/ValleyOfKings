@@ -19,9 +19,9 @@
 #include "Boss.h"
 #undef NOMINMAX
 
+using namespace std;
 using namespace this_thread;
 using namespace chrono;
-using namespace std;
 
 //Game Engine Vectors
 extern vector<shared_ptr<Being>> turn_order_vect;
@@ -35,6 +35,7 @@ int checkVect(vector<int> vect);
 int verify_input(int lower, int upper);
 void clearscreen();
 int dynamic_input(vector<string> str_vect);
+void buffered_output(string str);
 
 //Boss Functions
 shared_ptr<Being> genBoss(int option);

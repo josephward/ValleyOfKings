@@ -157,6 +157,14 @@ int dynamic_input(vector<string> str_vect) {
 	}
 }
 	
+//Function that takes a string, and provides buffered output by ~260 words/min
+void buffered_output(string str) {
+	for (int i = 0; i < str.size(); i++) {
+		cout << str[i];
+		sleep_for(50ms);
+	}
+	cout << "\n";
+}
 //--------------------------------------Boss Functions--------------------------------------
 
 shared_ptr<Being> genBoss(int option) {
