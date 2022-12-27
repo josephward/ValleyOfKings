@@ -16,7 +16,6 @@ vector<int> m4{ 0 }; //Druid
 vector<vector<int>> upgradeMatrix {m1, m2, m3, m4};
 
 //State Variables for the Save File
-int GAME_STATE1 = 0;
 int DIFFICULTY_LEVEL = 1;
 int GOLD_STASH = 0;
 int LEVEL_BEATEN = 0;
@@ -26,20 +25,21 @@ int UPGRADE_POINTS = 0;
 
 //Function that prints the title card for the game art
 //Art generated from https://patorjk.com/software/taag/#p=testall&f=Doh&t=Valley%20of%20Kings using Colossal
-void title_art() {
-	std::cout << endl;
-	std::cout
-		<< " 888     888         888 888                                  .d888      888    d8P  d8b                            " << endl
-		<< " 888     888         888 888                                 d88P        888   d8P   Y8P                            " << endl
-		<< " 888     888         888 888                                 888         888  d8P                                   " << endl
-		<< " Y88b   d88P 8888b.  888 888  .d88b.  888  888       .d88b.  888888      888d88K     888 88888b.   .d88b.  .d8888b  " << endl
-		<< "  Y88b d88P      88b 888 888 d8P  Y8b 888  888      d88  88b 888         8888888b    888 888  88b d88P 88b 88K      " << endl
-		<< "   Y88o88P  .d888888 888 888 88888888 888  888      888  888 888         888  Y88b   888 888  888 888  888  Y8888b. " << endl
-		<< "    Y888P   888  888 888 888 Y8b.     Y88b 888      Y88..88P 888         888   Y88b  888 888  888 Y88b 888      X88 " << endl
-		<< "     Y8P     Y888888 888 888   Y8888    Y88888        Y88P   888         888    Y88b 888 888  888   Y88888  88888P  " << endl
-		<< "                                           888                                                         888          " << endl
-		<< "                                      Y8b d88P                                                    Y8b d88P          " << endl
-		<< "                                        Y88P                                                        Y88P            " << endl << endl;
+string title_art() {
+	string str;
+	str += "\n 888     888         888 888                                  .d888      888    d8P  d8b                            \n";
+	str +=   " 888     888         888 888                                 d88P        888   d8P   Y8P                            \n";
+	str +=   " 888     888         888 888                                 888         888  d8P                                   \n";
+	str +=   " Y88b   d88P 8888b.  888 888  .d88b.  888  888       .d88b.  888888      888d88K     888 88888b.   .d88b.  .d8888b  \n";
+	str +=   "  Y88b d88P      88b 888 888 d8P  Y8b 888  888      d88  88b 888         8888888b    888 888  88b d88P 88b 88K      \n";
+	str +=   "   Y88o88P  .d888888 888 888 88888888 888  888      888  888 888         888  Y88b   888 888  888 888  888  Y8888b. \n";
+	str +=   "    Y888P   888  888 888 888 Y8b.     Y88b 888      Y88..88P 888         888   Y88b  888 888  888 Y88b 888      X88 \n";
+	str +=   "     Y8P     Y888888 888 888   Y8888    Y88888        Y88P   888         888    Y88b 888 888  888   Y88888  88888P  \n";
+	str +=   "                                           888                                                         888          \n";
+	str +=   "                                      Y8b d88P                                                    Y8b d88P          \n";
+	str +=   "                                        Y88P                                                        Y88P            \n";
+
+	return str;
 }
 
 //TODO: Either use this code or eliminate it
@@ -157,13 +157,61 @@ int dynamic_input(vector<string> str_vect, string default_message) {
 	}
 }
 	
-//Function that takes a string, and provides buffered output by ~260 words/min
-void buffered_output(string str) {
+//Function that takes a string, and provides buffered output by default at ~260 words/min
+//The time parameter is in turns of milliseconds (1000 ms = 1 sec)
+void buffered_output(string str, DWORD time) {
 	for (int i = 0; i < str.size(); i++) {
 		cout << str[i];
-		sleep_for(50ms);
+		Sleep(time);
 	}
 	cout << "\n";
+}
+
+//Takes a string, the string to be found, and what to replace it with, then executes.
+//This supports finding and replacing multiple options
+//Lifted with changes from https://stackoverflow.com/questions/5878775/how-to-find-and-replace-string
+//And https://stackoverflow.com/questions/18972258/index-of-nth-occurrence-of-the-string
+vector<string> string_manip(string s, string to_replace, string replace_with) {
+	//Variables used, and vector returned
+	vector<string> str_vect;
+	size_t pos = 0, prevPos;
+	int cnt = 0, i = 0;
+
+	// Continue looping until you reach the end of the string
+	while (true) {
+		string temp_str;			// Build fresh string
+		temp_str.reserve(s.size());	// Reserve rough estimate of final size
+
+		// Find the next instance of string to replace
+		while (cnt == i) {
+			prevPos = pos;
+			pos = s.find(to_replace, pos);
+			cnt++;
+
+			// If pos reaches the end of the string return the function
+			if (pos == string::npos) {
+				return str_vect;
+			}
+
+			//If the first chunk is being replaced
+			if (pos == 0) {
+				temp_str += replace_with;
+				pos += to_replace.size();
+				temp_str.append(s, pos, s.size() - pos);
+			}
+			//If anywhere else is being replaced
+			else {
+				temp_str.append(s, 0, pos);
+				temp_str += replace_with;
+				pos += to_replace.size();
+				temp_str.append(s, pos, s.size() - pos);
+			}
+
+		}
+		str_vect.push_back(temp_str); // Add to vector
+		i++;
+	}
+	return str_vect;
 }
 //--------------------------------------Boss Functions--------------------------------------
 
@@ -381,7 +429,7 @@ void load_game(int savefile) {
 	//Load in the data from the save file
 
 	//Load in status variables
-	input >> garb >> GAME_STATE1 >> garb >> DIFFICULTY_LEVEL >> garb >> GOLD_STASH
+	input >> garb >> DIFFICULTY_LEVEL >> garb >> GOLD_STASH
 		>> garb >> LEVEL_BEATEN >> garb >> UPGRADE_POINTS;
 
 	//Load in infantry variables
@@ -449,7 +497,6 @@ void save_game(int savefile) {
 	}
 
 	//Write the save data to the selected file
-	output << "Game State Variables"	<< endl << GAME_STATE1;
 	output << endl << "Difficulty"		<< endl << DIFFICULTY_LEVEL;
 	output << endl << "Gold Amount"		<< endl << GOLD_STASH;
 	output << endl << "Level Completed" << endl << LEVEL_BEATEN;
