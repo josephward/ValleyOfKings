@@ -232,90 +232,150 @@ shared_ptr<Being> genBoss(int option) {
 //Function that provides a succinct way to generate monsters
 shared_ptr<Being> genMonster(int option) {
 	switch (option) {
-	
-	//Generate Undead Warrior
-	case 1: {
-		Monster newMonst = Monster("Undead Warrior", "Undead", 8, 2);
-		auto ptr = make_shared<Being>(newMonst);
-		return ptr;
-	}
-	//Generate Undead Captain
-	case 2: {
-		Monster newMonst = Monster("Undead Captain", "Undead", 8, 4);
-		auto ptr = make_shared<Being>(newMonst);
-		return ptr;
-	}
-	//Generate Nomarch
-	case 3: {
-		Monster newMonst = Monster("Nomarch", "Undead", 10, 4);
-		auto ptr = make_shared<Being>(newMonst);
-		return ptr;
-	}
-	//Generate Sphinx
-	case 4: {
-		Monster newMonst = Monster("Sphinx", "Creature", 12, 4);
-		auto ptr = make_shared<Being>(newMonst);
-		return ptr;
-	}
-	//Generate Mummy
-	case 5:
-		Monster newMonst = Monster("Mummy", "Undead", 0, 0);
-		auto ptr = make_shared<Being>(newMonst);
-		return ptr;
-	}
+
+		//Generate Undead Warrior
+		case 1: {
+			Monster newMonst = Monster("Undead Warrior", "Undead", 8, 2);
+			auto ptr = make_shared<Being>(newMonst);
+			return ptr;
+		}
+		//Generate Undead Captain
+		case 2: {
+			Monster newMonst = Monster("Undead Captain", "Undead", 8, 4);
+			auto ptr = make_shared<Being>(newMonst);
+			return ptr;
+		}
+		//Generate Nomarch
+		case 3: {
+			Monster newMonst = Monster("Nomarch", "Undead", 10, 4);
+			auto ptr = make_shared<Being>(newMonst);
+			return ptr;
+		}
+		//Generate Sphinx
+		case 4: {
+			Monster newMonst = Monster("Sphinx", "Creature", 12, 4);
+			auto ptr = make_shared<Being>(newMonst);
+			return ptr;
+		}
+		//Generate Mummy
+		case 5: {
+			Monster newMonst = Monster("Mummy", "Undead", 0, 0);
+			auto ptr = make_shared<Being>(newMonst);
+			return ptr;
+		}
+		//Generate Nubian Horse-Archer
+		case 6: {
+			Monster newMonst = Monster("Nubian Horse-Archer", "Human", 12, 4);
+			auto ptr = make_shared<Being>(newMonst);
+			return ptr;
+		}
+		//Generate Nubian Raider
+		case 7: {
+			Monster newMonst = Monster("Nubian Raider", "Human", 8, 4);
+			auto ptr = make_shared<Being>(newMonst);
+			return ptr;
+		}
+		//Generate Egyptian Grave Robber
+		case 8: {
+			Monster newMonst = Monster("Egyptian Grave Robber", "Human", 8, 4);
+			auto ptr = make_shared<Being>(newMonst);
+			return ptr;
+		}
+			  //Generate Egyptian Robber Baron
+		case 9: {
+			Monster newMonst = Monster("Egyptian Robber Baron", "Human", 8, 6);
+			auto ptr = make_shared<Being>(newMonst);
+			return ptr;
+		}
+	}		
 }
 
 //Function that is a switch statement for each of the encounters of the game
 void setupMonsterCombat(vector<shared_ptr<Being>>& turn_order_vect, int encounter) {
 	turn_order_vect.clear(); //Ensure empty vector
 	switch (encounter) {
-	
-	//Level 1
-	case 1: {
-		//3 Undead Warriors
-		turn_order_vect.push_back(genMonster(1));
-		turn_order_vect.push_back(genMonster(1));
-		turn_order_vect.push_back(genMonster(1));
-	}
-	case 2: {
-		//3 Undead Warriors and a Captain
-		turn_order_vect.push_back(genMonster(1));
-		turn_order_vect.push_back(genMonster(1));
-		turn_order_vect.push_back(genMonster(1));
-		turn_order_vect.push_back(genMonster(2));
-	}
+		//Night Raids
+		case 1: {
+			//Grave Robber Party
+			turn_order_vect.push_back(genMonster(6));
+			turn_order_vect.push_back(genMonster(6));
+			turn_order_vect.push_back(genMonster(7));
+			turn_order_vect.push_back(genMonster(7));
+		}
+		case 2: {
+			//Raider Party
+			turn_order_vect.push_back(genMonster(8));
+			turn_order_vect.push_back(genMonster(8));
+			turn_order_vect.push_back(genMonster(9));
+		}
 
-	//Level 2
-	case 3: {
-		//Sphinx and Undead Warrior
-		turn_order_vect.push_back(genMonster(4));
-		turn_order_vect.push_back(genMonster(1));
-	}
-	case 4: {
-		//Sphinx, Captain, and 2 Undead Warriors
-		turn_order_vect.push_back(genMonster(4));
-		turn_order_vect.push_back(genMonster(2));
-		turn_order_vect.push_back(genMonster(1));
-		turn_order_vect.push_back(genMonster(1));
-	}
-	case 5: {
-		//Nomarch, 2 Captains, and 2 Mummies
-		turn_order_vect.push_back(genMonster(3));
-		turn_order_vect.push_back(genMonster(2));
-		turn_order_vect.push_back(genMonster(2));
-		turn_order_vect.push_back(genMonster(2));
-		turn_order_vect.push_back(genMonster(5));
-		turn_order_vect.push_back(genMonster(5));
-	}
+		//Level 1
+		case 3: {
+			//3 Undead Warriors
+			turn_order_vect.push_back(genMonster(1));
+			turn_order_vect.push_back(genMonster(1));
+			turn_order_vect.push_back(genMonster(1));
+		}
+		case 4: {
+			//3 Undead Warriors and a Captain
+			turn_order_vect.push_back(genMonster(1));
+			turn_order_vect.push_back(genMonster(1));
+			turn_order_vect.push_back(genMonster(1));
+			turn_order_vect.push_back(genMonster(2));
+		}
 
-	//Boss Level
-	case 6: {
-		//Nomarch, 2 Mummies, and Boss 1
-		turn_order_vect.push_back(genMonster(3));
-		turn_order_vect.push_back(genMonster(5));
-		turn_order_vect.push_back(genMonster(5));
-		turn_order_vect.push_back(genBoss(1));
-	}
+		//Level 2
+		case 5: {
+			//Sphinx and Undead Warrior
+			turn_order_vect.push_back(genMonster(4));
+			turn_order_vect.push_back(genMonster(1));
+		}
+		case 6: {
+			//Sphinx, Captain, and 2 Undead Warriors
+			turn_order_vect.push_back(genMonster(4));
+			turn_order_vect.push_back(genMonster(2));
+			turn_order_vect.push_back(genMonster(1));
+			turn_order_vect.push_back(genMonster(1));
+		}
+		case 7: {
+			//Nomarch, 2 Captains, and 2 Mummies
+			turn_order_vect.push_back(genMonster(3));
+			turn_order_vect.push_back(genMonster(2));
+			turn_order_vect.push_back(genMonster(2));
+			turn_order_vect.push_back(genMonster(5));
+			turn_order_vect.push_back(genMonster(5));
+		}
+
+		//Boss Level
+		case 8: {
+			//Nomarch, Mummy, Sphinx
+			turn_order_vect.push_back(genMonster(3));
+			turn_order_vect.push_back(genMonster(5));
+			turn_order_vect.push_back(genMonster(4));
+		}
+		case 9: {
+			//Nomarch, Captain, 2 Mummies
+			turn_order_vect.push_back(genMonster(3));
+			turn_order_vect.push_back(genMonster(2));
+			turn_order_vect.push_back(genMonster(5));
+			turn_order_vect.push_back(genMonster(5));
+		}
+		case 10: {
+			//Nomarch, 2 Mummies, and Boss 1
+			turn_order_vect.push_back(genMonster(3));
+			turn_order_vect.push_back(genMonster(5));
+			turn_order_vect.push_back(genMonster(5));
+			turn_order_vect.push_back(genBoss(1));
+		}
+
+		//Level 4
+		//Level 5
+		//Boss Level 2
+
+		//Level 7
+		//Level 8
+		//Level 9
+		//Boss Level 3
 	}
 }
 

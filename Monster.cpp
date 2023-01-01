@@ -31,11 +31,18 @@ void Monster::stun_character(shared_ptr<Character> target) {
 static void masterMonsterAI(shared_ptr<Monster> current_turn, int option) {
 	//Creates a map with each monster to call the related AI functions
 	map<string, int> monsterMap;
+	//Low Level Monsters
 	monsterMap.insert({ "Undead Warrior", 1 });
 	monsterMap.insert({ "Undead Captain", 2 });
 	monsterMap.insert({ "Nomarch", 3 });
 	monsterMap.insert({ "Sphinx", 4 });
 	monsterMap.insert({ "Mummy", 5 });
+
+	//Night Raiders
+	monsterMap.insert({ "Nubian Horse-Archer", 6});
+	monsterMap.insert({ "Nubian Raider", 7 });
+	monsterMap.insert({ "Egyptian Grave Robber", 8 });
+	monsterMap.insert({ "Egyptian Robber Baron", 9 });
 
 	switch (monsterMap.at(current_turn->get_name())) {
 		//AI governing Undead Warrior
@@ -56,6 +63,22 @@ static void masterMonsterAI(shared_ptr<Monster> current_turn, int option) {
 		}
 		//AI governing Mummy
 		case 5: {
+
+		}
+		//AI governing Nubian Horse-Archer
+		case 6: {
+
+		}
+		//AI governing Nubian Raider
+		case 7: {
+
+		}
+		//AI governing Egyptian Grave Robber
+		case 8: {
+
+		}
+		//AI governing Egyptian Robber Baron
+		case 9: {
 
 		}
 	}
