@@ -29,12 +29,18 @@ extern vector<shared_ptr<Being>> characterVect;
 extern vector<string> filenames;
 extern vector<string> itemvect; //TODO: Add the Item class in
 
+//Global Variables
+extern int DIFFICULTY_LEVEL;
+extern int GOLD_STASH;
+extern int LEVEL_BEATEN;
+extern int UPGRADE_POINTS;
+
 //General Functions
 string title_art();
 int checkVect(vector<int> vect);
 int verify_input(int lower, int upper);
 void clearscreen();
-int dynamic_input(vector<string> str_vect, string default_message = "Use the up/down arrow keys to select an option, then hit enter.");
+int dynamic_input(vector<string> str_vect, string default_message = "Use the up/down arrow keys to select an option, then hit enter.", vector<string> explanation = {});
 void buffered_output(string str, DWORD time = 50);
 vector<string> string_manip(string s, string to_replace, string replace_with);
 
@@ -43,7 +49,7 @@ shared_ptr<Being> genBoss(int option);
 
 //Monster Functions
 shared_ptr<Being> genMonster(int option);
-void setupMonsterCombat(vector<shared_ptr<Monster>>& monstVect, int encounter);
+void setupMonsterCombat(vector<shared_ptr<Being>>& turn_order_vect, int encounter);
 
 //Character Functions
 shared_ptr<Being> genCast(vector<vector<int>>& upgradeMatrix);

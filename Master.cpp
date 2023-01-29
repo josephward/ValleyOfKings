@@ -1,21 +1,17 @@
 #pragma once
 #include <filesystem>
 #include "Engine.h"
+#include "Master.h"
 using namespace std;
 
-string FILE_NAME;
-
-//Prototype for Areas
-void start_new_game(int select);	//Start from the top
-void load_save_file(int select);	//Continue previous game
-void homebase(bool new_game);			//The waiting area before combat/market
-void market();						//Where you can trade gold for items
-void level();						//Handles everything to run the levels
-void combat();						//The juicy part of the game
-void win_level();					//What happens if you win a level
-void lose_level();					//What happens if you lose a level
-void intro_flavortext();				//The Introduction to the Game
-void tutorial();
+void load_vars() {
+	ifstream input;
+	string garb;
+	int trash;
+	input.open(FILE_NAME);
+	input >> garb >> DIFFICULTY_LEVEL >> garb >> trash
+		>> garb >> LEVEL_BEATEN >> garb >> trash;
+}
 
 void start_new_game(int select) {
 	new_game(select);
@@ -63,12 +59,13 @@ void intro_flavortext() {
 	buffered_output(str);
 	str.clear();
 
-	str += string("After meeting up at Alexandria in the lower Nile, the group acquired supplies and chartered a boat down the Nile with a stop in Luxor. ") +
-		string("Using the map Quintus acquired they set up a base camp on the outskirts of the \e[1mValley of Kings\e[0m.");
+	str += string("After meeting up at Alexandria in the lower Nile, the group acquired supplies and chartered a boat down the Nile with a stop in Thebes. ") +
+		string("Using the map Quintus acquired they set up a base camp on the outskirts of the **Valley of Kings**.");
 
 	Sleep(10000);
 }
 
+//TODO: Continue this
 void homebase(bool new_game) {
 
 	int status = 0;
@@ -79,12 +76,120 @@ void homebase(bool new_game) {
 		}
 		else {
 			//Load in home base for people who have already played.
+			vector<string> str = string_manip("   Go to Market\n   Raid Next Tomb\n   Level Select\n", "   ", ">> ");
+			vector<string> vstr = { "Travel to the encampment outside Thebes to visit the markets.\nThis will take a day of travel each way.", "Begin the next avaliable level.", "Select which level to start."};
+			int response = dynamic_input(str, "Please select an option.", vstr);
+
+			//Market
+			if (response == 1) {
+				status = 1;
+				market();
+			}
+			//Next Level
+			else if (response == 2) {
+				status = 1;
+				level(LEVEL_BEATEN+1);
+			}
+			//Level Select
+			else {
+				status = 1;
+				level();
+			}
 		}
 	}
 }
 
+//Governs the execution of levels
+void level(int select) {
+	
+	string generic_victory_text = "You have defeated all monsters!\nAs you leave you find something buried in the rubble from your fight.";
+	string generic_lose_text = "You have";
+
+	//Switch statement for each level, or if you want to replay a level
+	//for none zero cases, the for loops start at the desired section and end at the last one
+	switch (select) {
+		//Option if user wants to replay a level
+		case 0: {
+			//string str;
+			//for(int i = 0; i < LEVEL_BEATEN; i++) {...
+			//str += "   Level " + i;
+			//str_manpi(str, "   ", ">> ");
+			//dynamic_input(str);
+		}
+		//Level 1
+		case 1: {
+			//Run through all of the combat
+			for (int i = 3; i <= 4; i++) {
+				bool exit = combat(i);
+				
+				//If combat ends, then end the loop 
+				if (exit == 1) {
+					i = 5;
+				}
+			}
+
+
+
+			//
+
+			//End of level flavor text
+		}
+		//Level 2
+		case 2: {
+			for (int i = 5; i <= 7; i++) {
+				bool exit = combat(i);
+				if (exit == 1) {
+					i = 8;
+				}
+			}
+			//End of level flavor text
+		}
+		//Level 3 - Boss 1
+		case 3: {
+			for (int i = 8; i <= 10; i++) {
+				bool exit = combat(i);
+				if (exit == 1) {
+					i = 11;
+				}
+			}
+			//End of level flavor text
+		}
+	}
+}
+
+bool combat(int select) {
+	//Set up combat
+	vector<shared_ptr<Being>> turn_order_vect = {};
+	setupMonsterCombat(turn_order_vect, select);
+	
+	//Variables
+	bool exit = 1;
+	bool monst_status = 1;
+	bool char_status = 1;
+
+	//Loop turns until one side dies
+	while (exit != 0) {
+		//If the monster/character turns exit with no one dead they will return 1. 
+		//If either party completely dies then it will return 0 and trigger the exit
+		monst_status = monster_turn();
+		char_status = character_turn();
+		exit = monst_status * char_status; //Exit == 0 completes combat
+	}
+
+	//If all the monsters died
+	if (monst_status == 0) {
+		//Flavor text
+		return 0;
+	}
+	//If all the characters died
+	else {
+		//Flavor text
+		return 1;
+	}
+}
+
 //The function for the main menu, will run continuously until user wants to exit program
-void main_menu() {
+void main_menu() {	
 	while (true) {
 		//Splash Screen
 		//TODO: Replace with string_manip once there are some options to work with
@@ -143,6 +248,7 @@ void main_menu() {
 				//Option that loads the game
 				if (response2 != 4) {
 					FILE_NAME = filenames[response2]; //Sets the active file name
+					load_vars();
 					load_save_file(response2);
 
 				}
@@ -180,6 +286,7 @@ void main_menu() {
 			//If the response is to create a game do so
 			if (select != 4) {
 				FILE_NAME = filenames[select]; //Sets the active file name
+				load_vars();
 				start_new_game(select);
 			}
 			//If the response is to cancel redo main menu function
@@ -201,6 +308,5 @@ void main_menu() {
 
 //The main function for the game
 int main() {
-	intro_flavortext();
 	main_menu();
 }

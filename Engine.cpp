@@ -92,7 +92,7 @@ void clearscreen() {
 //Code pulled from a modified version of user93353's answer to: https://stackoverflow.com/questions/24708700/c-detect-when-user-presses-arrow-key
 //Virtual-Key Constant Reference https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes?redirectedfrom=MSDN
 //For future expansion see https://iq.direct/blog/325-how-to-read-direct-mouse-and-keyboard-events-in-c-console-app.html
-int dynamic_input(vector<string> str_vect, string default_message) {
+int dynamic_input(vector<string> str_vect, string default_message, vector<string> explanation) {
 
 	//Example of a good string vector is:
 	//string str1 = ">> Save File 1\n   Save File 2\n   Save File 3\n";
@@ -100,9 +100,17 @@ int dynamic_input(vector<string> str_vect, string default_message) {
 	//string str3 = "   Save File 1\n   Save File 2\n>> Save File 3\n";
 	//This allows for each input to flow nicely to the next
 
+	//Sometimes an explanation vector will be smaller the vector of options
+	//This attempts to ensure they are the correct size
+	//TODO: have the program throw an exception
+	while (explanation.size() < str_vect.size()) {
+		explanation.push_back("");
+	}
+
 	int x = 0;	//Variable to manipulate vector
 	cout << default_message << endl;
-	cout << str_vect[x]; // Inital Value 
+	cout << str_vect[x] << endl; // Inital Value 
+	cout << explanation[x];
 
 	//While loop to provide continuous input until an ending event
 	while (true) {
@@ -126,33 +134,35 @@ int dynamic_input(vector<string> str_vect, string default_message) {
 			switch (irInput.Event.KeyEvent.wVirtualKeyCode) {
 
 				//Case of what happens when the user selects a value
-			case VK_RETURN:
-				return x;
+				case VK_RETURN:
+					return x;
 
 				//Case of inputting up
-			case VK_UP:
-				x--;
-				//If the x var. goes smaller than 0, go to the max value
-				if (x < 0) {
-					x = str_vect.size() - 1;
-				}
-				clearscreen();
-				cout << default_message << endl;
-				cout << str_vect[x];
-				break;
+				case VK_UP:
+					x--;
+					//If the x var. goes smaller than 0, go to the max value
+					if (x < 0) {
+						x = str_vect.size() - 1;
+					}
+					clearscreen();
+					cout << default_message << endl;
+					cout << str_vect[x] << endl;
+					cout << explanation[x];
+					break;
 
 				//Case of inputting down
-			case VK_DOWN:
-				x++;
-				//If the x var. goes bigger than the max size, go to zero
-				if (x > str_vect.size() - 1) {
-					x = 0;
+				case VK_DOWN:
+					x++;
+					//If the x var. goes bigger than the max size, go to zero
+					if (x > str_vect.size() - 1) {
+						x = 0;
+					}
+					clearscreen();
+					cout << default_message << endl;
+					cout << str_vect[x] << endl;
+					cout << explanation[x];
+					break;
 				}
-				clearscreen();
-				cout << default_message << endl;
-				cout << str_vect[x];
-				break;
-			}
 		}
 	}
 }
