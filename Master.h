@@ -1,8 +1,5 @@
 #pragma once
 
-//Global Variables
-extern string FILE_NAME;
-
 void load_vars();
 void start_new_game(int select);	//Start from the top
 void load_save_file(int select);	//Continue previous game

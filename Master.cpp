@@ -4,6 +4,9 @@
 #include "Master.h"
 using namespace std;
 
+//Global Variables
+string FILE_NAME;
+
 void load_vars() {
 	ifstream input;
 	string garb;
@@ -63,6 +66,10 @@ void intro_flavortext() {
 		string("Using the map Quintus acquired they set up a base camp on the outskirts of the **Valley of Kings**.");
 
 	Sleep(10000);
+}
+
+void market() {
+	return;
 }
 
 //TODO: Continue this
@@ -155,6 +162,14 @@ void level(int select) {
 			//End of level flavor text
 		}
 	}
+}
+
+bool monster_turn() {
+	return 0;
+}
+
+bool character_turn() {
+	return 0;
 }
 
 bool combat(int select) {
