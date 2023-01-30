@@ -223,6 +223,20 @@ vector<string> string_manip(string s, string to_replace, string replace_with) {
 	}
 	return str_vect;
 }
+
+void print_vect(vector<shared_ptr<Being>> vect) {
+	for (int i = 0; i < vect.size(); i++) {
+		int var = i + 1;
+		string status;
+		//If the monster is stunned included stunned
+		if (vect[i]->is_stunned == 1) {
+			status = "stunned";
+		}
+		std::cout << "[" << var << "]" << vect[i]->get_name() << " | " << vect[i]->get_HP() << setw(10) << status << endl;
+	}
+	std::cout << endl;
+}
+
 //--------------------------------------Boss Functions--------------------------------------
 
 shared_ptr<Being> genBoss(int option) {
@@ -392,7 +406,7 @@ void setupMonsterCombat(vector<shared_ptr<Being>>& turn_order_vect, int encounte
 //--------------------------------------Character Functions--------------------------------------
 
 //Generate each character with pointers, then put them into a vector.
-shared_ptr<Being> genCast(vector<vector<int>>& upgradeMatrix) {
+void genCast(vector<vector<int>>& upgradeMatrix) {
 	//TODO: Change so that characters are generated based on the upgrades received
 
 	characterVect.clear(); //Make sure there's nothing in the vector first
