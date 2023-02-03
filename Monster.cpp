@@ -27,59 +27,89 @@ void Monster::stun_character(shared_ptr<Character> target) {
 	target->stun();
 }
 
+//Function that conducts the basic attack options. 
+//This is a template of sorts that each monster will modify for their own AI.
+//Currect setup gives a roughly 40% chance to hit the weakest character and 20% to all other characters
+void Monster::default_attack_AI(shared_ptr<Being> current_monst, shared_ptr<Being> target_Ptr, shared_ptr<Being> weak_target_Ptr) {
+	
+	//Choose a random option
+	int attack_select = rand() % 5;
+
+	//Execute attack option
+	if (attack_select == 0) { // Light random attack
+		cout << current_monst->get_name() << " attacks " << target_Ptr->get_name() << "!\n";
+		current_monst->std_attack(target_Ptr, 0);
+	}
+	else if (attack_select == 1) { // Light random attack
+		cout << current_monst->get_name() << " attacks " << target_Ptr->get_name() << "!\n";
+		current_monst->std_attack(target_Ptr, 0);
+	}
+	else if (attack_select == 2) { // Heavy random attack
+		cout << current_monst->get_name() << " attacks " << target_Ptr->get_name() << "!\n";
+		current_monst->std_attack(target_Ptr, 2);
+	}
+	else if (attack_select == 3) { // Light target weakest attack
+		cout << current_monst->get_name() << " attacks " << weak_target_Ptr->get_name() << "!\n";
+		current_monst->std_attack(weak_target_Ptr, 0);
+	}
+	else if (attack_select == 4) { // Random stun attack
+		cout << current_monst->get_name() << " stuns " << target_Ptr->get_name() << "!\n";
+		target_Ptr->stun();
+	}
+
+	
+	
+}
+
 //Function that governs the monster's choices during their attack phase
-static void masterMonsterAI(shared_ptr<Monster> current_turn, int option) {
-	//Creates a map with each monster to call the related AI functions
-	map<string, int> monsterMap;
-	//Low Level Monsters
-	monsterMap.insert({ "Undead Warrior", 1 });
-	monsterMap.insert({ "Undead Captain", 2 });
-	monsterMap.insert({ "Nomarch", 3 });
-	monsterMap.insert({ "Sphinx", 4 });
-	monsterMap.insert({ "Mummy", 5 });
+void Monster::masterMonsterAI(shared_ptr<Being> current_monst, shared_ptr<Being> target_Ptr, shared_ptr<Being> weak_target_Ptr) {
 
-	//Night Raiders
-	monsterMap.insert({ "Nubian Horse-Archer", 6});
-	monsterMap.insert({ "Nubian Raider", 7 });
-	monsterMap.insert({ "Egyptian Grave Robber", 8 });
-	monsterMap.insert({ "Egyptian Robber Baron", 9 });
+	string monst_name = current_monst->get_name();
+		
+	//AI governing Monster
+	if (monst_name == "Monster") {
+		default_attack_AI(current_monst, target_Ptr, weak_target_Ptr);
+	}
+	//AI governing Undead Warrior
+	else if (monst_name == "Undead Warrior") {
+		default_attack_AI(current_monst, target_Ptr, weak_target_Ptr);
+	}
+	//AI governing Undead Captain
+	else if (monst_name == "Undead Captain") {
+		default_attack_AI(current_monst, target_Ptr, weak_target_Ptr);
+	}
+	//AI governing Nomarch
+	else if (monst_name == "Nomarch") {
+		std::cout << "Error: there is no default attack AI for the Nomarch.\n";
+		default_attack_AI(current_monst, target_Ptr, weak_target_Ptr);
+	}
+	//AI governing Sphinx
+	else if (monst_name == "Sphinx") {
+		std::cout << "Error: there is no default attack AI for this Sphinx.\n";
+		default_attack_AI(current_monst, target_Ptr, weak_target_Ptr);
+	}
+	//AI governing Mummy
+	else if (monst_name == "Mummy") {
+		std::cout << "Error: there is no default attack AI for this Mummy.\n";
+	}
+	//AI governing Nubian Horse-Archer
+	else if (monst_name == "Nubian Horse-Archer") {
+		std::cout << "Error: there is no default attack AI for this Horse-Archer.\n";
+	}
+	//AI governing Nubian Raider
+	else if (monst_name == "Nubian Raider") {
+		std::cout << "Error: there is no default attack AI for this Raider.\n";
+	}
+	//AI governing Egyptian Grave Robber
+	else if (monst_name == "Egyptian Grave Robber") {
+		std::cout << "Error: there is no default attack AI for this Grave Robber.\n";
+	}
+	//AI governing Egyptian Robber Baron
+	else if (monst_name == "Egyptian Robber Baron") {
+		std::cout << "Error: there is no default attack AI for this Robber Baron.\n";
+	}
 
-	switch (monsterMap.at(current_turn->get_name())) {
-		//AI governing Undead Warrior
-		case 1: {
-			
-		}
-		//AI governing Undead Captain
-		case 2: {
-
-		}
-		//AI governing Nomarch
-		case 3: {
-
-		}
-		//AI governing Sphinx
-		case 4: {
-
-		}
-		//AI governing Mummy
-		case 5: {
-
-		}
-		//AI governing Nubian Horse-Archer
-		case 6: {
-
-		}
-		//AI governing Nubian Raider
-		case 7: {
-
-		}
-		//AI governing Egyptian Grave Robber
-		case 8: {
-
-		}
-		//AI governing Egyptian Robber Baron
-		case 9: {
-
-		}
+	else {
+		std::cout << "Error: invalid monster name for monster object.\n";
 	}
 }

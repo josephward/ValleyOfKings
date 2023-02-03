@@ -325,12 +325,14 @@ void setupMonsterCombat(vector<shared_ptr<Being>>& turn_order_vect, int encounte
 			turn_order_vect.push_back(genMonster(6));
 			turn_order_vect.push_back(genMonster(7));
 			turn_order_vect.push_back(genMonster(7));
+			break;
 		}
 		case 2: {
 			//Raider Party
 			turn_order_vect.push_back(genMonster(8));
 			turn_order_vect.push_back(genMonster(8));
 			turn_order_vect.push_back(genMonster(9));
+			break;
 		}
 
 		//Level 1
@@ -339,6 +341,7 @@ void setupMonsterCombat(vector<shared_ptr<Being>>& turn_order_vect, int encounte
 			turn_order_vect.push_back(genMonster(1));
 			turn_order_vect.push_back(genMonster(1));
 			turn_order_vect.push_back(genMonster(1));
+			break;
 		}
 		case 4: {
 			//3 Undead Warriors and a Captain
@@ -346,6 +349,7 @@ void setupMonsterCombat(vector<shared_ptr<Being>>& turn_order_vect, int encounte
 			turn_order_vect.push_back(genMonster(1));
 			turn_order_vect.push_back(genMonster(1));
 			turn_order_vect.push_back(genMonster(2));
+			break;
 		}
 
 		//Level 2
@@ -353,6 +357,7 @@ void setupMonsterCombat(vector<shared_ptr<Being>>& turn_order_vect, int encounte
 			//Sphinx and Undead Warrior
 			turn_order_vect.push_back(genMonster(4));
 			turn_order_vect.push_back(genMonster(1));
+			break;
 		}
 		case 6: {
 			//Sphinx, Captain, and 2 Undead Warriors
@@ -360,6 +365,7 @@ void setupMonsterCombat(vector<shared_ptr<Being>>& turn_order_vect, int encounte
 			turn_order_vect.push_back(genMonster(2));
 			turn_order_vect.push_back(genMonster(1));
 			turn_order_vect.push_back(genMonster(1));
+			break;
 		}
 		case 7: {
 			//Nomarch, 2 Captains, and 2 Mummies
@@ -368,6 +374,7 @@ void setupMonsterCombat(vector<shared_ptr<Being>>& turn_order_vect, int encounte
 			turn_order_vect.push_back(genMonster(2));
 			turn_order_vect.push_back(genMonster(5));
 			turn_order_vect.push_back(genMonster(5));
+			break;
 		}
 
 		//Boss Level
@@ -376,6 +383,7 @@ void setupMonsterCombat(vector<shared_ptr<Being>>& turn_order_vect, int encounte
 			turn_order_vect.push_back(genMonster(3));
 			turn_order_vect.push_back(genMonster(5));
 			turn_order_vect.push_back(genMonster(4));
+			break;
 		}
 		case 9: {
 			//Nomarch, Captain, 2 Mummies
@@ -383,6 +391,7 @@ void setupMonsterCombat(vector<shared_ptr<Being>>& turn_order_vect, int encounte
 			turn_order_vect.push_back(genMonster(2));
 			turn_order_vect.push_back(genMonster(5));
 			turn_order_vect.push_back(genMonster(5));
+			break;
 		}
 		case 10: {
 			//Nomarch, 2 Mummies, and Boss 1
@@ -390,6 +399,7 @@ void setupMonsterCombat(vector<shared_ptr<Being>>& turn_order_vect, int encounte
 			turn_order_vect.push_back(genMonster(5));
 			turn_order_vect.push_back(genMonster(5));
 			turn_order_vect.push_back(genBoss(1));
+			break;
 		}
 
 		//Level 4
