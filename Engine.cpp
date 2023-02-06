@@ -232,7 +232,20 @@ void print_vect(vector<shared_ptr<Being>> vect) {
 		if (vect[i]->is_stunned == 1) {
 			status = "stunned";
 		}
-		std::cout << "[" << var << "]" << vect[i]->get_name() << " | " << vect[i]->get_HP() << setw(10) << status << endl;
+
+		int s = vect[0]->get_name().size();
+		vector<string> name_vect;
+		for (int i = 0; i < vect.size(); i++) {
+			name_vect.push_back(vect[i]->get_name());
+			if (vect[i]->get_name().size() > s) {
+				s = vect[i]->get_name().size();
+			}
+		}
+
+		std::cout	<< left << "[" << var << "] " 
+					<< setw(s+2) << name_vect[i]
+					<< setw(5) << vect[i]->get_HP() 
+					<< setw(7) << status << endl;
 	}
 	std::cout << endl;
 }

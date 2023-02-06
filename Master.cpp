@@ -170,23 +170,19 @@ void level(int select) {
 bool monster_turn(vector<shared_ptr<Being>> monst_turn_order) {
 	clearscreen();
 
-	//Monster Cleanup Code 
-
-	//If the monster goes below 0 hitpoints delete from vector
+	//Clear monster vector function
 	for (int i = 0; i < monst_turn_order.size(); i++) {
 		if (monst_turn_order[i]->get_HP() < 1) {
 			monst_turn_order.erase(monst_turn_order.begin() + i);
 			i -= 1;
 		}
 	}
-
-	//If all the monsters are dead, end the function.
 	if (monst_turn_order.size() == 0) {
 		return 0;
 	}
 
-	Sleep(1000);
 	std::cout << "The Monsters attack!" << endl << endl;
+	Sleep(1000);
 	//this_thread::sleep_for(milliseconds(2500)); //Adds a time delay
 
 	//For each monster select a valid target then conduct an attack
@@ -299,13 +295,21 @@ bool combat(vector<shared_ptr<Being>> monst_turn_order) {
 
 	//Loop turns until one side dies
 	while (exit != 0) {
-		//If the monster/character turns exit with no one dead they will return 1. 
-		//If either party completely dies then it will return 0 and trigger the exit
+
+		//Clear out each monster that is dead
+		if (monst_turn_order.size() == 0) {
+			return 1;
+		}
+
 		monst_status = monster_turn(monst_turn_order);
-		
 		print_vect(characterVect);
 		Sleep(1000);
+
 		//char_status = character_turn();
+		Sleep(1000);
+
+		//If the monster/character turns exit with no one dead they will return 1. 
+		//If either party completely dies then it will return 0 and trigger the exit
 		exit = monst_status * char_status; //Exit == 0 completes combat
 	}
 
