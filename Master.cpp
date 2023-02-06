@@ -169,8 +169,9 @@ void level(int select) {
 //Function imported from version 1.0
 bool monster_turn(vector<shared_ptr<Being>> monst_turn_order) {
 	clearscreen();
+	print_vect(monst_turn_order);
 
-	//Clear monster vector function
+	//Clear monster vector function and check if combat should be over
 	for (int i = 0; i < monst_turn_order.size(); i++) {
 		if (monst_turn_order[i]->get_HP() < 1) {
 			monst_turn_order.erase(monst_turn_order.begin() + i);
@@ -189,6 +190,17 @@ bool monster_turn(vector<shared_ptr<Being>> monst_turn_order) {
 	for (int i = 0; i < monst_turn_order.size(); i++) {
 
 		//Status Checks (addition check like mind control can
+
+		//If all the characters are dead then return the function
+		int x = 0;
+		for (int i = 0; i < characterVect.size(); i++) {
+			if (characterVect[i]->get_HP() <= 0) {
+				x++;
+			}
+			if (x == 4) {
+				return 1;
+			}
+		}
 
 		//If the monster is stunned, unstun them and pass the turn
 		shared_ptr<Being> current_monst = monst_turn_order[i];
@@ -239,6 +251,8 @@ bool monster_turn(vector<shared_ptr<Being>> monst_turn_order) {
 }
 
 bool character_turn() {
+	print_vect(characterVect);
+	Sleep(2000);
 	return 0;
 }
 
@@ -296,17 +310,8 @@ bool combat(vector<shared_ptr<Being>> monst_turn_order) {
 	//Loop turns until one side dies
 	while (exit != 0) {
 
-		//Clear out each monster that is dead
-		if (monst_turn_order.size() == 0) {
-			return 1;
-		}
-
 		monst_status = monster_turn(monst_turn_order);
-		print_vect(characterVect);
-		Sleep(1000);
-
 		//char_status = character_turn();
-		Sleep(1000);
 
 		//If the monster/character turns exit with no one dead they will return 1. 
 		//If either party completely dies then it will return 0 and trigger the exit
@@ -315,12 +320,14 @@ bool combat(vector<shared_ptr<Being>> monst_turn_order) {
 
 	//If all the monsters died
 	if (monst_status == 0) {
-		//Flavor text
+		cout << "You vanquished the tomb. You raid it for everything not nailed down" << endl;//Flavor text
+		Sleep(1000);
 		return 1;
 	}
 	//If all the characters died
 	else {
-		//Flavor text
+		cout << "The tomb has vanquished you." << endl; //Flavor text
+		Sleep(1000);
 		return 0;
 	}
 }
