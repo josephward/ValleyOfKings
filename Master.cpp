@@ -716,7 +716,8 @@ void main_menu() {
 			vector<vector<int>> options{
 				{3, 3},		//Easy
 				{3, 4},		//Medium
-				{3, 4, 6}	//Hard
+				{3, 4, 6},		//Hard
+				{4, 4, 6, 6}	//Impossible
 			};
 
 			//Select a cast set of monsters
