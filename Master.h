@@ -8,10 +8,9 @@ void tutorial();					//Tutorial for the game
 void homebase(bool new_game);		//The waiting area before combat/market
 void market();						//Where you can trade gold for items
 void level(int select = 0);			//Handles everything to run the levels
-bool combat(int select);			//The juicy part of the game
-bool combat(vector<shared_ptr<Being>> monst_order_vect); //Overloaded version of the function
-void check_combat();
+bool combat(int select, vector<shared_ptr<Being>> old_char_vect);			//The juicy part of the game
+bool combat(vector<shared_ptr<Being>> monst_order_vect, vector<shared_ptr<Being>> old_char_vect); //Overloaded version of the function
 bool monster_turn(vector<shared_ptr<Being>> monst_turn_order);
-bool character_turn();
+bool character_turn(vector<shared_ptr<Being>> monst_turn_order);
 void win_level();					//What happens if you win a level
 void lose_level();					//What happens if you lose a level

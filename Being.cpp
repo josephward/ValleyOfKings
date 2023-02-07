@@ -10,10 +10,15 @@ Being::Being(const string b_name, const string b_type, int b_HP, int b_baseDmg, 
 //Combat Functions
 
 //Attack Function
-void Being::takeDmg(int dmg) {
+void Being::takeDmg(int dmg, double dmgMult) {
 	//TODO: put in the couts based on what kind of being is receiving damage.
-	HP -= dmg;
-	cout << name << " had taken " << dmg << " damage! They now have " << HP << " health!" << endl;
+	HP -= dmg*dmgMult;
+	if (HP <= 0) {
+		cout << name << " has taken " << dmg << " damage! They died!" << endl;
+	}
+	else {
+		cout << name << " had taken " << dmg << " damage! They now have " << HP << " health!" << endl;
+	}
 
 	/*
 	* Possible path forward for the damage function
@@ -36,8 +41,8 @@ void Being::takeDmg(int dmg) {
 void Being::beHealed(int heal) {
 	//Catch an instant where a being would be healed for more hit points then they started with
 	if (max_HP-HP < heal) {
-		HP = max_HP;
 		cout << name << " has been healed for " << max_HP - HP << ".";
+		HP = max_HP;
 		cout << " Their Health is now " << HP << "!" << endl;
 	}
 	else {
@@ -48,8 +53,9 @@ void Being::beHealed(int heal) {
 }
 
 //Calls the attack function for the standard amount
-void Being::std_attack(shared_ptr<Being> target, int modifier) {
-	target->takeDmg(baseDmg + modifier);
+void Being::std_attack(shared_ptr<Being> target, int modifier, double dmgMult) {
+	int newDmg = (baseDmg + modifier) * dmgMult;
+	target->takeDmg(newDmg);
 }
 
 //Calls the healing function for the standard amount
@@ -102,5 +108,6 @@ void Being::stun() {
 
 //Unstuns the being
 void Being::unstun() {
+	cout << name << " recovers from being stunned!" << endl;
 	is_stunned = 0;
 }

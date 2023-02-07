@@ -129,7 +129,7 @@ void level(int select) {
 		case 1: {
 			//Run through all of the combat
 			for (int i = 3; i <= 4; i++) {
-				bool exit = combat(i);
+				bool exit = combat(i, characterVect);
 				
 				//If combat ends, then end the loop 
 				if (exit == 1) {
@@ -146,7 +146,7 @@ void level(int select) {
 		//Level 2
 		case 2: {
 			for (int i = 5; i <= 7; i++) {
-				bool exit = combat(i);
+				bool exit = combat(i, characterVect);
 				if (exit == 1) {
 					i = 8;
 				}
@@ -156,7 +156,7 @@ void level(int select) {
 			  //Level 3 - Boss 1
 		case 3: {
 			for (int i = 8; i <= 10; i++) {
-				bool exit = combat(i);
+				bool exit = combat(i, characterVect);
 				if (exit == 1) {
 					i = 11;
 				}
@@ -169,7 +169,6 @@ void level(int select) {
 //Function imported from version 1.0
 bool monster_turn(vector<shared_ptr<Being>> monst_turn_order) {
 	clearscreen();
-	print_vect(monst_turn_order);
 
 	//Clear monster vector function and check if combat should be over
 	for (int i = 0; i < monst_turn_order.size(); i++) {
@@ -205,7 +204,6 @@ bool monster_turn(vector<shared_ptr<Being>> monst_turn_order) {
 		//If the monster is stunned, unstun them and pass the turn
 		shared_ptr<Being> current_monst = monst_turn_order[i];
 		if (current_monst->is_stunned == 1) {
-			std::cout << current_monst->get_name() << " recovers from being stunned!" << endl;
 			monst_turn_order[i]->unstun();
 		}
 
@@ -248,20 +246,302 @@ bool monster_turn(vector<shared_ptr<Being>> monst_turn_order) {
 		cout << endl;
 		Sleep(2000); //Adds a time delay
 	}
+
+	return 1; //If nothing else trips, return
 }
 
-bool character_turn() {
-	print_vect(characterVect);
-	Sleep(2000);
-	return 0;
+string gen_select(vector<string> options) {
+	string new_option;
+	for (int i = 0; i < options.size(); i++) {
+		string temp = "   ";
+		temp.append(options[i]);
+		temp.append("\n");
+		new_option.append(temp);
+	}
+	return new_option;
+}
+
+string gen_select(vector<shared_ptr<Being>> options) {
+	string new_option;
+	for (int i = 0; i < options.size(); i++) {
+		string temp = "   ";
+		temp.append(options[i]->get_name());
+		temp.append("  ");
+		temp.append(to_string(options[i]->get_HP()));
+		temp.append("\n");
+		new_option.append(temp);
+	}
+	return new_option;
+}
+
+bool character_turn(vector<shared_ptr<Being>> monst_turn_order) {
+	Sleep(1000);
+	
+	//If all the characters are dead then return the function
+	int x = 0;
+	for (int i = 0; i < characterVect.size(); i++) {
+		if (characterVect[i]->get_HP() <= 0) {
+			x++;
+		}
+		if (x == 4) {
+			return 0;
+		}
+	}
+
+	//Combat loop 
+	for (int p = 0; p < characterVect.size(); p++) {
+		clearscreen();
+				
+		//Clear monster vector function and check if combat should be over
+		for (int i = 0; i < monst_turn_order.size(); i++) {
+			if (monst_turn_order[i]->get_HP() < 1) {
+				monst_turn_order.erase(monst_turn_order.begin() + i);
+				i -= 1;
+			}
+		}
+		if (monst_turn_order.size() == 0) {
+			return 1;
+		}
+
+		//Output battle information
+		print_vect(monst_turn_order);
+		print_vect(characterVect);
+
+		//Choose target and execute attack
+		shared_ptr<Being> current_char = characterVect[p];
+		if (characterVect[p]->get_name() == "Quintus") {
+			string standard = "Quintus' turn:\nUse the up/down keys to select an option, then hit enter.";
+
+			//Set up vectors
+			vector<string> options = { "Attack", "Shield Bash" };
+			vector<string> explain = { 
+				"Cause a monster to take 6 damage.\n", 
+				"Cause a monster to be stunned for one turn.\n" };
+			
+			//Check the upgrade matrix
+			if (upgradeMatrix[0][0] == 1) {
+				options.push_back("Upgrade 1");
+				explain.push_back("This is an example upgrade");
+			}
+
+			//If the char is stunned, then unstun them and break
+			if (characterVect[p]->is_stunned) {
+				characterVect[p]->unstun();
+			}
+			else {
+				//Selects which attack option
+				string temp_options = gen_select(options);
+				options = string_manip(temp_options, "   ", ">> ");
+				//Ask for input
+				int response = dynamic_input(options, standard, explain);
+				clearscreen();
+
+				//Selects which monster to target
+				string temp_options2 = gen_select(monst_turn_order);
+				vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
+				//Ask for input
+				int response2 = dynamic_input(options2, standard);
+
+				//Execute input
+				if (response == 0) {
+					cout << current_char->get_name() << " attacks " << monst_turn_order[response2]->get_name() << "!\n";
+					current_char->std_attack(monst_turn_order[response2]);
+				}
+				else if (response == 1) {
+					cout << current_char->get_name() << " stuns " << monst_turn_order[response2]->get_name() << "!\n";
+					monst_turn_order[response2]->stun();
+				}
+				else if (response == 2) {
+					cout << "Error: This upgrade has not been initialized." << endl;
+				}
+			}
+			
+			Sleep(2500);
+		}
+		else if (characterVect[p]->get_name() == "Nysa") {
+			string standard = "Nysa's turn:\nUse the up/down keys to select an option, then hit enter.";
+
+			//Set up vectors
+			vector<string> options = { "Attack", "Jupiter's Lightning" };
+			vector<string> explain = {
+				"Cause a monster to take 4 damage.\n",
+				"Cause each monster to take 2 damage\n" };
+
+			//Check the upgrade matrix
+			if (upgradeMatrix[1][0] == 1) {
+				options.push_back("Upgrade 1");
+				explain.push_back("This is an example upgrade");
+			}
+
+			//If the char is stunned, then unstun them and break
+			if (characterVect[p]->is_stunned) {
+				characterVect[p]->unstun();
+			}
+			else {
+				//Selects which attack option
+				string temp_options = gen_select(options);
+				options = string_manip(temp_options, "   ", ">> ");
+				//Ask for input
+				int response = dynamic_input(options, standard, explain);
+				clearscreen();
+
+				//Selects which monster to target
+				int response2;
+				if (response != 1) {
+					string temp_options2 = gen_select(monst_turn_order);
+					vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
+					//Ask for input
+					response2 = dynamic_input(options2, standard);
+				}
+
+				//Execute input
+				if (response == 0) {
+					cout << current_char->get_name() << " attacks " << monst_turn_order[response2]->get_name() << "!\n";
+					current_char->std_attack(monst_turn_order[response2]);
+				}
+				else if (response == 1) {
+					for (int i = 0; i < monst_turn_order.size(); i++) {
+						cout << current_char->get_name() << " attacks " << monst_turn_order[i]->get_name() << "!\n";
+						current_char->std_attack(monst_turn_order[i], 0, .5);
+						cout << endl;
+					}
+				}
+				else if (response == 2) {
+					cout << "Error: This upgrade has not been initialized." << endl;
+				}
+			}
+			Sleep(2500);
+		}
+		else if (characterVect[p]->get_name() == "Paltibaal") {
+			string standard = "Paltibaal's turn:\nUse the up/down keys to select an option, then hit enter.";
+
+			//Set up vectors
+			vector<string> options = { "Attack", "Heal" };
+			vector<string> explain = {
+				"Cause a monster to take 4 damage.\n",
+				"Cause a character to be healed for 4 damage.\n" };
+
+			//Check the upgrade matrix
+			if (upgradeMatrix[2][0] == 1) {
+				options.push_back("Upgrade 1");
+				explain.push_back("This is an example upgrade");
+			}
+
+			//If the char is stunned, then unstun them and break
+			if (characterVect[p]->is_stunned) {
+				characterVect[p]->unstun();
+			}
+			else {
+				//Selects which attack option
+				string temp_options = gen_select(options);
+				options = string_manip(temp_options, "   ", ">> ");
+				//Ask for input
+				int response = dynamic_input(options, standard, explain);
+				clearscreen();
+
+
+				int response2 = 0;
+				if (response != 1) {
+					//Selects which monster to target
+					string temp_options2 = gen_select(monst_turn_order);
+					vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
+					//Ask for input
+					response2 = dynamic_input(options2, standard);
+				}
+				else {
+					//Selects which monster to target
+					string temp_options2 = gen_select(characterVect);
+					vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
+					//Ask for input
+					response2 = dynamic_input(options2, standard);
+				}
+
+				
+
+				//Execute input
+				if (response == 0) {
+					cout << current_char->get_name() << " attacks " << monst_turn_order[response2]->get_name() << "!\n";
+					current_char->std_attack(monst_turn_order[response2]);
+				}
+				else if (response == 1) {
+					cout << characterVect[p]->get_name() << " heals " << characterVect[response2]->get_name() << "!\n";
+					characterVect[p]->std_heal(characterVect[response2]); //Current char heals chosen char.
+				}
+				else if (response == 2) {
+					cout << "Error: This upgrade has not been initialized." << endl;
+				}
+			}
+			Sleep(2500);
+		}
+		else if (characterVect[p]->get_name() == "Ganna") {
+			string standard = "Ganna's turn:\nUse the up/down keys to select an option, then hit enter.";
+
+			//Set up vectors
+			vector<string> options = { "Attack", "Old Magic" };
+			vector<string> explain = {
+				"Cause a monster to take 4 damage.\n",
+				"Cause a monster to take 8 damage and stun Ganna for a turn.\n" };
+
+			//Check the upgrade matrix
+			if (upgradeMatrix[3][0] == 1) {
+				options.push_back("Upgrade 1");
+				explain.push_back("This is an example upgrade");
+			}
+
+			//If the char is stunned, then unstun them and break
+			if (characterVect[p]->is_stunned) {
+				characterVect[p]->unstun();
+			}
+			else {
+				//Selects which attack option
+				string temp_options = gen_select(options);
+				options = string_manip(temp_options, "   ", ">> ");
+				//Ask for input
+				int response = dynamic_input(options, standard, explain);
+				clearscreen();
+
+				//Selects which monster to target
+				string temp_options2 = gen_select(monst_turn_order);
+				vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
+				//Ask for input
+				int response2 = dynamic_input(options2, standard);
+
+				//Execute input
+				if (response == 0) {
+					cout << current_char->get_name() << " attacks " << monst_turn_order[response2]->get_name() << "!\n";
+					current_char->std_attack(monst_turn_order[response2]);
+				}
+				else if (response == 1) {
+					cout << current_char->get_name() << " curses " << monst_turn_order[response2]->get_name() << "!\n";
+					current_char->std_attack(monst_turn_order[response2], 0, 2);
+					characterVect[p]->stun();
+				}
+				else if (response == 2) {
+					cout << "Error: This upgrade has not been initialized." << endl;
+				}
+			}
+			Sleep(2500);
+		}
+	}
+	
+	Sleep(1000);
+	return 1; //If nothing else trips, return
 }
 
 //Combat function for use during the standard game
-bool combat(int select) {
+bool combat(int select, vector<shared_ptr<Being>> old_char_vect) {
 	//Set up combat
 	vector<shared_ptr<Being>> monst_turn_order = {};
 	setupMonsterCombat(monst_turn_order, select);
-	genCast(upgradeMatrix);
+	
+	//Build the character vector
+	if (old_char_vect.size() == 0) {
+		genCast(upgradeMatrix);
+	}
+	else {
+		//This is a second or third round of combat
+		//So the characterVect was previously built
+	}
 
 	//Variables
 	bool exit = 1;
@@ -274,12 +554,8 @@ bool combat(int select) {
 		
 		//If the monster/character turns exit with no one dead they will return 1. 
 		//If either party completely dies then it will return 0 and trigger the exit
-		clearscreen();
 		monst_status = monster_turn(monst_turn_order);
-		clearscreen();
-		print_vect(characterVect);
-		Sleep(1000);
-		char_status = character_turn();
+		char_status = character_turn(monst_turn_order);
 		exit = monst_status * char_status; //Exit == 0 completes combat
 	}
 
@@ -297,10 +573,16 @@ bool combat(int select) {
 
 //Overloaded version of the combat function for skirmish
 //TODO: make sure that they are the same function
-bool combat(vector<shared_ptr<Being>> monst_turn_order) {
+bool combat(vector<shared_ptr<Being>> monst_turn_order, vector<shared_ptr<Being>> old_char_vect) {
 	
 	//Build the character vector
-	genCast(upgradeMatrix);
+	if (old_char_vect.size() == 0) {
+		genCast(upgradeMatrix);
+	}
+	else {
+		//This is a second or third round of combat
+		//So the characterVect was previously built
+	}
 
 	//Variables
 	bool exit = 1;
@@ -310,17 +592,21 @@ bool combat(vector<shared_ptr<Being>> monst_turn_order) {
 	//Loop turns until one side dies
 	while (exit != 0) {
 
-		monst_status = monster_turn(monst_turn_order);
-		//char_status = character_turn();
-
 		//If the monster/character turns exit with no one dead they will return 1. 
 		//If either party completely dies then it will return 0 and trigger the exit
+		monst_status = monster_turn(monst_turn_order);
+		char_status = character_turn(monst_turn_order);
 		exit = monst_status * char_status; //Exit == 0 completes combat
 	}
 
 	//If all the monsters died
 	if (monst_status == 0) {
-		cout << "You vanquished the tomb. You raid it for everything not nailed down" << endl;//Flavor text
+		for (int i = 0; i < characterVect.size(); i++) {
+			if (characterVect[i]->is_stunned == 1) {
+				characterVect[i]->unstun();
+			}
+		}
+		cout << "You vanquished the tomb. You raid it for everything not nailed down." << endl;//Flavor text
 		Sleep(1000);
 		return 1;
 	}
@@ -449,7 +735,7 @@ void main_menu() {
 			vector<vector<int>> options{
 				{3, 3},		//Easy
 				{3, 4},		//Medium
-				{6, 3, 4}	//Hard
+				{3, 4, 6}	//Hard
 			};
 
 			//Select a cast set of monsters
@@ -463,7 +749,7 @@ void main_menu() {
 			//Conduct combat
 			for (int x = 0; x < options.size()-1; x++) {
 				setupMonsterCombat(skirm_vect, options[input][x]);
-				victory = combat(skirm_vect);
+				victory = combat(skirm_vect,characterVect);
 
 				//If the user loses during the round
 				if (victory == 0) {
@@ -497,5 +783,46 @@ void main_menu() {
 
 //The main function for the game
 int main() {
-	main_menu();
+	
+	//DELETE: Temp Combat Testing
+
+	vector<shared_ptr<Being>> skirm_vect = {};
+
+	//Vector of options to select from
+	vector<vector<int>> options{
+		{3, 3},		//Easy
+		{3, 4},		//Medium
+		{3, 4, 6}	//Hard
+	};
+
+	string difficulty_options = "   Easy\n   Medium\n   Hard\n";
+	clearscreen();
+	vector<string> dyn_input = string_manip(difficulty_options, "   ", ">> ");
+	int input = dynamic_input(dyn_input, "Select the difficulty level of monsters.\n");
+
+	bool victory = 0;
+
+	//Conduct combat
+	for (int x = 0; x < options.size() - 1; x++) {
+		setupMonsterCombat(skirm_vect, options[input][x]);
+		victory = combat(skirm_vect, characterVect);
+
+		//If the user loses during the round
+		if (victory == 0) {
+			cout << "You have lost and your soldiers will join the ranks of the undead. Better luck next time!" << endl;
+			Sleep(1000);
+			clearscreen();
+			break;
+		}
+	}
+
+	//Endstate if user won
+	if (victory == 1) {
+		cout << "You have beaten the tomb and carried off the riches hidden within." << endl;
+		Sleep(1000);
+		clearscreen();
+	}
+
+	
+	//main_menu();
 }

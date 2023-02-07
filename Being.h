@@ -13,6 +13,7 @@ class Being {
 		int HP;				//Hit points of the being
 		int baseDmg;		//Unmodified damage of the being
 		int baseHeal;		//Unmodified healing factor of the being
+		double dmgMult;		//Damage multiplier 
 
 
 	public:
@@ -27,11 +28,11 @@ class Being {
 		Being(const string name, const string type, int HP, int baseDmg, int baseHeal = 0);
 
 		//Combat Functions
-		void takeDmg(int dmg);								//Receive damage function
-		void beHealed(int heal);							//Be Healed function
-		void std_attack(shared_ptr<Being> target, int modifier = 0);	//Basic attack
-		void std_heal(shared_ptr<Being> target, int modifier = 0);		//Basic heal
-		void print_info();									//Prints basic info for use in combat
+		void takeDmg(int dmg, double dmgMult = 1);											//Receive damage function
+		void beHealed(int heal);															//Be Healed function
+		void std_attack(shared_ptr<Being> target, int modifier = 0, double dmgMult = 1);	//Basic attack
+		void std_heal(shared_ptr<Being> target, int modifier = 0);							//Basic heal
+		void print_info();																	//Prints basic info for use in combat
 
 		//Getters
 		string get_name();

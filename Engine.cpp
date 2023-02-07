@@ -242,7 +242,7 @@ void print_vect(vector<shared_ptr<Being>> vect) {
 			}
 		}
 
-		std::cout	<< left << "[" << var << "] " 
+		std::cout	<< left 
 					<< setw(s+2) << name_vect[i]
 					<< setw(5) << vect[i]->get_HP() 
 					<< setw(7) << status << endl;
