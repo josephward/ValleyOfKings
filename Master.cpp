@@ -309,7 +309,16 @@ bool character_turn(vector<shared_ptr<Being>> monst_turn_order) {
 
 		//Choose target and execute attack
 		shared_ptr<Being> current_char = characterVect[p];
-		if (characterVect[p]->get_name() == "Quintus") {
+		
+		//If the char is stunned, then unstun them and break
+		if (characterVect[p]->is_stunned) {
+			characterVect[p]->unstun();
+		}
+		//If the char has less than or equal to 0, pass the turn
+		else if (characterVect[p]->get_HP() <= 0) {
+			cout << characterVect[p]->get_name() << " is unconcious!" << endl;
+		}
+		else if (characterVect[p]->get_name() == "Quintus") {
 			string standard = "Quintus' turn:\nUse the up/down keys to select an option, then hit enter.";
 
 			//Set up vectors
@@ -324,39 +333,31 @@ bool character_turn(vector<shared_ptr<Being>> monst_turn_order) {
 				explain.push_back("This is an example upgrade");
 			}
 
-			//If the char is stunned, then unstun them and break
-			if (characterVect[p]->is_stunned) {
-				characterVect[p]->unstun();
-			}
-			else {
-				//Selects which attack option
-				string temp_options = gen_select(options);
-				options = string_manip(temp_options, "   ", ">> ");
-				//Ask for input
-				int response = dynamic_input(options, standard, explain);
-				clearscreen();
+			//Selects which attack option
+			string temp_options = gen_select(options);
+			options = string_manip(temp_options, "   ", ">> ");
+			//Ask for input
+			int response = dynamic_input(options, standard, explain);
+			clearscreen();
 
-				//Selects which monster to target
-				string temp_options2 = gen_select(monst_turn_order);
-				vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
-				//Ask for input
-				int response2 = dynamic_input(options2, standard);
+			//Selects which monster to target
+			string temp_options2 = gen_select(monst_turn_order);
+			vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
+			//Ask for input
+			int response2 = dynamic_input(options2, standard);
 
-				//Execute input
-				if (response == 0) {
-					cout << current_char->get_name() << " attacks " << monst_turn_order[response2]->get_name() << "!\n";
-					current_char->std_attack(monst_turn_order[response2]);
-				}
-				else if (response == 1) {
-					cout << current_char->get_name() << " stuns " << monst_turn_order[response2]->get_name() << "!\n";
-					monst_turn_order[response2]->stun();
-				}
-				else if (response == 2) {
-					cout << "Error: This upgrade has not been initialized." << endl;
-				}
+			//Execute input
+			if (response == 0) {
+				cout << current_char->get_name() << " attacks " << monst_turn_order[response2]->get_name() << "!\n";
+				current_char->std_attack(monst_turn_order[response2]);
 			}
-			
-			Sleep(2500);
+			else if (response == 1) {
+				cout << current_char->get_name() << " stuns " << monst_turn_order[response2]->get_name() << "!\n";
+				monst_turn_order[response2]->stun();
+			}
+			else if (response == 2) {
+				cout << "Error: This upgrade has not been initialized." << endl;
+			}
 		}
 		else if (characterVect[p]->get_name() == "Nysa") {
 			string standard = "Nysa's turn:\nUse the up/down keys to select an option, then hit enter.";
@@ -373,44 +374,37 @@ bool character_turn(vector<shared_ptr<Being>> monst_turn_order) {
 				explain.push_back("This is an example upgrade");
 			}
 
-			//If the char is stunned, then unstun them and break
-			if (characterVect[p]->is_stunned) {
-				characterVect[p]->unstun();
-			}
-			else {
-				//Selects which attack option
-				string temp_options = gen_select(options);
-				options = string_manip(temp_options, "   ", ">> ");
+			//Selects which attack option
+			string temp_options = gen_select(options);
+			options = string_manip(temp_options, "   ", ">> ");
+			//Ask for input
+			int response = dynamic_input(options, standard, explain);
+			clearscreen();
+
+			//Selects which monster to target
+			int response2;
+			if (response != 1) {
+				string temp_options2 = gen_select(monst_turn_order);
+				vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
 				//Ask for input
-				int response = dynamic_input(options, standard, explain);
-				clearscreen();
+				response2 = dynamic_input(options2, standard);
+			}
 
-				//Selects which monster to target
-				int response2;
-				if (response != 1) {
-					string temp_options2 = gen_select(monst_turn_order);
-					vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
-					//Ask for input
-					response2 = dynamic_input(options2, standard);
-				}
-
-				//Execute input
-				if (response == 0) {
-					cout << current_char->get_name() << " attacks " << monst_turn_order[response2]->get_name() << "!\n";
-					current_char->std_attack(monst_turn_order[response2]);
-				}
-				else if (response == 1) {
-					for (int i = 0; i < monst_turn_order.size(); i++) {
-						cout << current_char->get_name() << " attacks " << monst_turn_order[i]->get_name() << "!\n";
-						current_char->std_attack(monst_turn_order[i], 0, .5);
-						cout << endl;
-					}
-				}
-				else if (response == 2) {
-					cout << "Error: This upgrade has not been initialized." << endl;
+			//Execute input
+			if (response == 0) {
+				cout << current_char->get_name() << " attacks " << monst_turn_order[response2]->get_name() << "!\n";
+				current_char->std_attack(monst_turn_order[response2]);
+			}
+			else if (response == 1) {
+				for (int i = 0; i < monst_turn_order.size(); i++) {
+					cout << current_char->get_name() << " attacks " << monst_turn_order[i]->get_name() << "!\n";
+					current_char->std_attack(monst_turn_order[i], 0, .5);
+					cout << endl;
 				}
 			}
-			Sleep(2500);
+			else if (response == 2) {
+				cout << "Error: This upgrade has not been initialized." << endl;
+			}
 		}
 		else if (characterVect[p]->get_name() == "Paltibaal") {
 			string standard = "Paltibaal's turn:\nUse the up/down keys to select an option, then hit enter.";
@@ -427,51 +421,44 @@ bool character_turn(vector<shared_ptr<Being>> monst_turn_order) {
 				explain.push_back("This is an example upgrade");
 			}
 
-			//If the char is stunned, then unstun them and break
-			if (characterVect[p]->is_stunned) {
-				characterVect[p]->unstun();
+			//Selects which attack option
+			string temp_options = gen_select(options);
+			options = string_manip(temp_options, "   ", ">> ");
+			//Ask for input
+			int response = dynamic_input(options, standard, explain);
+			clearscreen();
+
+
+			int response2 = 0;
+			if (response != 1) {
+				//Selects which monster to target
+				string temp_options2 = gen_select(monst_turn_order);
+				vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
+				//Ask for input
+				response2 = dynamic_input(options2, standard);
 			}
 			else {
-				//Selects which attack option
-				string temp_options = gen_select(options);
-				options = string_manip(temp_options, "   ", ">> ");
+				//Selects which monster to target
+				string temp_options2 = gen_select(characterVect);
+				vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
 				//Ask for input
-				int response = dynamic_input(options, standard, explain);
-				clearscreen();
-
-
-				int response2 = 0;
-				if (response != 1) {
-					//Selects which monster to target
-					string temp_options2 = gen_select(monst_turn_order);
-					vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
-					//Ask for input
-					response2 = dynamic_input(options2, standard);
-				}
-				else {
-					//Selects which monster to target
-					string temp_options2 = gen_select(characterVect);
-					vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
-					//Ask for input
-					response2 = dynamic_input(options2, standard);
-				}
+				response2 = dynamic_input(options2, standard);
+			}
 
 				
 
-				//Execute input
-				if (response == 0) {
-					cout << current_char->get_name() << " attacks " << monst_turn_order[response2]->get_name() << "!\n";
-					current_char->std_attack(monst_turn_order[response2]);
-				}
-				else if (response == 1) {
-					cout << characterVect[p]->get_name() << " heals " << characterVect[response2]->get_name() << "!\n";
-					characterVect[p]->std_heal(characterVect[response2]); //Current char heals chosen char.
-				}
-				else if (response == 2) {
-					cout << "Error: This upgrade has not been initialized." << endl;
-				}
+			//Execute input
+			if (response == 0) {
+				cout << current_char->get_name() << " attacks " << monst_turn_order[response2]->get_name() << "!\n";
+				current_char->std_attack(monst_turn_order[response2]);
 			}
-			Sleep(2500);
+			else if (response == 1) {
+				cout << characterVect[p]->get_name() << " heals " << characterVect[response2]->get_name() << "!\n";
+				characterVect[p]->std_heal(characterVect[response2]); //Current char heals chosen char.
+			}
+			else if (response == 2) {
+				cout << "Error: This upgrade has not been initialized." << endl;
+			}
 		}
 		else if (characterVect[p]->get_name() == "Ganna") {
 			string standard = "Ganna's turn:\nUse the up/down keys to select an option, then hit enter.";
@@ -488,40 +475,34 @@ bool character_turn(vector<shared_ptr<Being>> monst_turn_order) {
 				explain.push_back("This is an example upgrade");
 			}
 
-			//If the char is stunned, then unstun them and break
-			if (characterVect[p]->is_stunned) {
-				characterVect[p]->unstun();
-			}
-			else {
-				//Selects which attack option
-				string temp_options = gen_select(options);
-				options = string_manip(temp_options, "   ", ">> ");
-				//Ask for input
-				int response = dynamic_input(options, standard, explain);
-				clearscreen();
+			//Selects which attack option
+			string temp_options = gen_select(options);
+			options = string_manip(temp_options, "   ", ">> ");
+			//Ask for input
+			int response = dynamic_input(options, standard, explain);
+			clearscreen();
 
-				//Selects which monster to target
-				string temp_options2 = gen_select(monst_turn_order);
-				vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
-				//Ask for input
-				int response2 = dynamic_input(options2, standard);
+			//Selects which monster to target
+			string temp_options2 = gen_select(monst_turn_order);
+			vector<string> options2 = string_manip(temp_options2, "   ", ">> ");
+			//Ask for input
+			int response2 = dynamic_input(options2, standard);
 
-				//Execute input
-				if (response == 0) {
-					cout << current_char->get_name() << " attacks " << monst_turn_order[response2]->get_name() << "!\n";
-					current_char->std_attack(monst_turn_order[response2]);
-				}
-				else if (response == 1) {
-					cout << current_char->get_name() << " curses " << monst_turn_order[response2]->get_name() << "!\n";
-					current_char->std_attack(monst_turn_order[response2], 0, 2);
-					characterVect[p]->stun();
-				}
-				else if (response == 2) {
-					cout << "Error: This upgrade has not been initialized." << endl;
-				}
+			//Execute input
+			if (response == 0) {
+				cout << current_char->get_name() << " attacks " << monst_turn_order[response2]->get_name() << "!\n";
+				current_char->std_attack(monst_turn_order[response2]);
 			}
-			Sleep(2500);
+			else if (response == 1) {
+				cout << current_char->get_name() << " curses " << monst_turn_order[response2]->get_name() << "!\n";
+				current_char->std_attack(monst_turn_order[response2], 0, 2);
+				characterVect[p]->stun();
+			}
+			else if (response == 2) {
+				cout << "Error: This upgrade has not been initialized." << endl;
+			}
 		}
+		Sleep(2000); //The sleep between each character's turn
 	}
 	
 	Sleep(1000);
@@ -747,7 +728,7 @@ void main_menu() {
 			bool victory = 0;
 
 			//Conduct combat
-			for (int x = 0; x < options.size()-1; x++) {
+			for (int x = 0; x < options[input].size(); x++) {
 				setupMonsterCombat(skirm_vect, options[input][x]);
 				victory = combat(skirm_vect,characterVect);
 
@@ -785,17 +766,19 @@ void main_menu() {
 int main() {
 	
 	//DELETE: Temp Combat Testing
-
+	srand(time(NULL));
+	title_art();
 	vector<shared_ptr<Being>> skirm_vect = {};
 
 	//Vector of options to select from
 	vector<vector<int>> options{
-		{3, 3},		//Easy
-		{3, 4},		//Medium
-		{3, 4, 6}	//Hard
+		{3, 3},			//Easy
+		{3, 4},			//Medium
+		{3, 4, 6},		//Hard
+		{4, 4, 6, 6}	//Impossible
 	};
 
-	string difficulty_options = "   Easy\n   Medium\n   Hard\n";
+	string difficulty_options = "   Easy\n   Medium\n   Hard\n   Impossible\n";
 	clearscreen();
 	vector<string> dyn_input = string_manip(difficulty_options, "   ", ">> ");
 	int input = dynamic_input(dyn_input, "Select the difficulty level of monsters.\n");
@@ -803,14 +786,18 @@ int main() {
 	bool victory = 0;
 
 	//Conduct combat
-	for (int x = 0; x < options.size() - 1; x++) {
+	for (int x = 0; x < options[input].size(); x++) {
+		clearscreen();
+		cout << "Round " << x+1 << " of " << options[input].size() << endl;
+		Sleep(1500);
 		setupMonsterCombat(skirm_vect, options[input][x]);
 		victory = combat(skirm_vect, characterVect);
 
 		//If the user loses during the round
 		if (victory == 0) {
+			clearscreen();
 			cout << "You have lost and your soldiers will join the ranks of the undead. Better luck next time!" << endl;
-			Sleep(1000);
+			Sleep(2500);
 			clearscreen();
 			break;
 		}
@@ -818,8 +805,9 @@ int main() {
 
 	//Endstate if user won
 	if (victory == 1) {
+		clearscreen();
 		cout << "You have beaten the tomb and carried off the riches hidden within." << endl;
-		Sleep(1000);
+		Sleep(2500);
 		clearscreen();
 	}
 

@@ -80,12 +80,10 @@ void Monster::masterMonsterAI(shared_ptr<Being> current_monst, shared_ptr<Being>
 	}
 	//AI governing Nomarch
 	else if (monst_name == "Nomarch") {
-		std::cout << "Error: there is no default attack AI for the Nomarch.\n";
 		default_attack_AI(current_monst, target_Ptr, weak_target_Ptr);
 	}
 	//AI governing Sphinx
 	else if (monst_name == "Sphinx") {
-		std::cout << "Error: there is no default attack AI for this Sphinx.\n";
 		default_attack_AI(current_monst, target_Ptr, weak_target_Ptr);
 	}
 	//AI governing Mummy
