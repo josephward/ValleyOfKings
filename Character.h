@@ -9,7 +9,5 @@ class Character : public Being {
 		//Constructor
 		Character(const string ch_name, const string ch_type, int ch_HP, int ch_baseDmg, int ch_baseHeal = 0);
 
-		//Combat Functions
-
 		//Other Functions
 };

@@ -220,6 +220,13 @@ bool monster_turn(vector<shared_ptr<Being>> monst_turn_order) {
 				}
 			}
 
+			vector<shared_ptr<Being>> notstun_char_vect;
+			for (int m = 0; m < temp_char_vect.size(); m++) {
+				if (temp_char_vect[m]->is_stunned == 1) {
+					notstun_char_vect.push_back(temp_char_vect[m]);
+				}
+			}
+
 			//Select a random target
 			int temp_target = rand() % temp_char_vect.size();
 
@@ -231,6 +238,10 @@ bool monster_turn(vector<shared_ptr<Being>> monst_turn_order) {
 				}
 			}
 
+			//Select random unstunned target
+			int temp_unstun_target = rand() % notstun_char_vect.size();
+
+
 			//Other future addtions could be:
 			// - random unstunned 
 			// - strongest
@@ -238,6 +249,7 @@ bool monster_turn(vector<shared_ptr<Being>> monst_turn_order) {
 			//Set target pointers
 			shared_ptr<Being> target_Ptr = temp_char_vect[temp_target];
 			shared_ptr<Being> weak_target_Ptr = temp_char_vect[temp_weak_target];
+			shared_ptr<Being> unstun_target_Ptr = notstun_char_vect[temp_unstun_target];
 
 			//Conduct the combat
 			shared_ptr<Monster>temp_monst;
@@ -317,6 +329,7 @@ bool character_turn(vector<shared_ptr<Being>> monst_turn_order) {
 		//If the char has less than or equal to 0, pass the turn
 		else if (characterVect[p]->get_HP() <= 0) {
 			cout << characterVect[p]->get_name() << " is unconcious!" << endl;
+			characterVect[p]->set_uncon();
 		}
 		else if (characterVect[p]->get_name() == "Quintus") {
 			string standard = "Quintus' turn:\nUse the up/down keys to select an option, then hit enter.";
@@ -542,12 +555,20 @@ bool combat(int select, vector<shared_ptr<Being>> old_char_vect) {
 
 	//If all the monsters died
 	if (monst_status == 0) {
-		//Flavor text
+		for (int i = 0; i < characterVect.size(); i++) {
+			if (characterVect[i]->is_stunned == 1) {
+				characterVect[i]->unstun();
+				Sleep(500);
+			}
+		}
+		cout << "You vanquished the tomb. You raid it for everything not nailed down." << endl;//Flavor text
+		Sleep(4000);
 		return 1;
 	}
 	//If all the characters died
 	else {
-		//Flavor text
+		cout << "The tomb has vanquished you." << endl; //Flavor text
+		Sleep(4000);
 		return 0;
 	}
 }
@@ -585,16 +606,17 @@ bool combat(vector<shared_ptr<Being>> monst_turn_order, vector<shared_ptr<Being>
 		for (int i = 0; i < characterVect.size(); i++) {
 			if (characterVect[i]->is_stunned == 1) {
 				characterVect[i]->unstun();
+				Sleep(500);
 			}
 		}
 		cout << "You vanquished the tomb. You raid it for everything not nailed down." << endl;//Flavor text
-		Sleep(1000);
+		Sleep(4000);
 		return 1;
 	}
 	//If all the characters died
 	else {
 		cout << "The tomb has vanquished you." << endl; //Flavor text
-		Sleep(1000);
+		Sleep(4000);
 		return 0;
 	}
 }
@@ -774,9 +796,9 @@ int main() {
 	//Vector of options to select from
 	vector<vector<int>> options{
 		{3, 3},			//Easy
-		{3, 4},			//Medium
-		{3, 4, 6},		//Hard
-		{4, 4, 6, 6}	//Impossible
+		{4, 4},			//Medium
+		{4, 4, 6},		//Hard
+		{6, 6, 6, 6, 6, 6, 6, 6, 6, 6}	//Impossible
 	};
 
 	string difficulty_options = "   Easy\n   Medium\n   Hard\n   Impossible\n";
@@ -798,7 +820,7 @@ int main() {
 		if (victory == 0) {
 			clearscreen();
 			cout << "You have lost and your soldiers will join the ranks of the undead. Better luck next time!" << endl;
-			Sleep(2500);
+			Sleep(4000);
 			clearscreen();
 			break;
 		}
@@ -808,7 +830,7 @@ int main() {
 	if (victory == 1) {
 		clearscreen();
 		cout << "You have beaten the tomb and carried off the riches hidden within." << endl;
-		Sleep(2500);
+		Sleep(4000);
 		clearscreen();
 	}
 

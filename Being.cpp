@@ -13,7 +13,10 @@ Being::Being(const string b_name, const string b_type, int b_HP, int b_baseDmg, 
 void Being::takeDmg(int dmg, double dmgMult) {
 	//TODO: put in the couts based on what kind of being is receiving damage.
 	HP -= dmg*dmgMult;
-	if (HP <= 0) {
+	if (HP <= 0 && type == "Character") {
+		cout << name << " has taken " << dmg << " damage! They have been knocked unconcious!" << endl;
+	}
+	else if (HP <= 0) {
 		cout << name << " has taken " << dmg << " damage! They died!" << endl;
 	}
 	else {
@@ -61,6 +64,11 @@ void Being::std_attack(shared_ptr<Being> target, int modifier, double dmgMult) {
 //Calls the healing function for the standard amount
 void  Being::std_heal(shared_ptr<Being> target, int modifier) {
 	target->beHealed(baseHeal + modifier);
+}
+
+//Setter
+void Being::set_uncon() {
+	HP = 0;
 }
 
 //Getters

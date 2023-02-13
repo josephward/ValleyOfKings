@@ -439,12 +439,12 @@ void genCast(vector<vector<int>>& upgradeMatrix) {
 	//Upgrade 1
 	//Health +2
 	if (upgradeMatrix[0][0] != 0) {
-		Character newChar1 = Character("Quintus", "", 16+2, 6);
+		Character newChar1 = Character("Quintus", "", 12+2, 6);
 		ptr1 = make_shared<Being>(newChar1);
 	}
 	//Default Infantry
 	else {
-		Character newChar1 = Character("Quintus", "", 16, 6);
+		Character newChar1 = Character("Quintus", "", 12, 6);
 		ptr1 = make_shared<Being>(newChar1);
 	}
 
@@ -453,12 +453,12 @@ void genCast(vector<vector<int>>& upgradeMatrix) {
 	//Upgrade 1
 	//Health +2
 	if (upgradeMatrix[1][0] != 0) {
-		Character newChar2 = Character("Nysa", "", 12+2, 4);
+		Character newChar2 = Character("Nysa", "", 10+2, 4);
 		ptr2 = make_shared<Being>(newChar2);
 	}
 	//Default Cultist
 	else {
-		Character newChar2 = Character("Nysa", "", 12, 4);
+		Character newChar2 = Character("Nysa", "", 10, 4);
 		ptr2 = make_shared<Being>(newChar2);
 	}
 
@@ -467,12 +467,12 @@ void genCast(vector<vector<int>>& upgradeMatrix) {
 	//Upgrade 1
 	//Health +2, Healing +2
 	if (upgradeMatrix[2][0] != 0) {
-		Character newChar3 = Character("Paltibaal", "", 12+2, 4, 6 + 2);
+		Character newChar3 = Character("Paltibaal", "", 10+2, 4, 4 + 2);
 		ptr3 = make_shared<Being>(newChar3);
 	}
 	//Default Healer
 	else {
-		Character newChar3 = Character("Paltibaal", "", 12, 4, 6);
+		Character newChar3 = Character("Paltibaal", "", 10, 4, 4);
 		ptr3 = make_shared<Being>(newChar3);
 	}
 
@@ -481,11 +481,11 @@ void genCast(vector<vector<int>>& upgradeMatrix) {
 	//Upgrade 1
 	//Health +2
 	if (upgradeMatrix[3][0] != 0) {
-		Character newChar4 = Character("Ganna", "", 12+2, 4);
+		Character newChar4 = Character("Ganna", "", 10+2, 4);
 		ptr4 = make_shared<Being>(newChar4);
 	}
 	else {
-		Character newChar4 = Character("Ganna", "", 12, 4);
+		Character newChar4 = Character("Ganna", "", 10, 4);
 		ptr4 = make_shared<Being>(newChar4);
 	}
 	

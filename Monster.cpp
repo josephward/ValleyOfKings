@@ -55,11 +55,10 @@ void Monster::default_attack_AI(shared_ptr<Being> current_monst, shared_ptr<Bein
 	else if (attack_select == 4) { // Random stun attack
 		cout << current_monst->get_name() << " stuns " << target_Ptr->get_name() << "!\n";
 		target_Ptr->stun();
-	}
-
-	
-	
+	}	
 }
+
+//TODO: Create default_attack_AI version that you can preselect attack option
 
 //Function that governs the monster's choices during their attack phase
 void Monster::masterMonsterAI(shared_ptr<Being> current_monst, shared_ptr<Being> target_Ptr, shared_ptr<Being> weak_target_Ptr) {

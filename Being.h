@@ -13,7 +13,6 @@ class Being {
 		int HP;				//Hit points of the being
 		int baseDmg;		//Unmodified damage of the being
 		int baseHeal;		//Unmodified healing factor of the being
-		double dmgMult;		//Damage multiplier 
 
 
 	public:
@@ -44,5 +43,6 @@ class Being {
 		// Setters
 		void stun();
 		void unstun();
+		void set_uncon();
 };
 
