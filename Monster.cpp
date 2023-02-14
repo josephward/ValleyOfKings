@@ -65,12 +65,8 @@ void Monster::masterMonsterAI(shared_ptr<Being> current_monst, shared_ptr<Being>
 
 	string monst_name = current_monst->get_name();
 		
-	//AI governing Monster
-	if (monst_name == "Monster") {
-		default_attack_AI(current_monst, target_Ptr, weak_target_Ptr);
-	}
 	//AI governing Undead Warrior
-	else if (monst_name == "Undead Warrior") {
+	if (monst_name == "Undead Warrior") {
 		default_attack_AI(current_monst, target_Ptr, weak_target_Ptr);
 	}
 	//AI governing Undead Captain
@@ -83,7 +79,28 @@ void Monster::masterMonsterAI(shared_ptr<Being> current_monst, shared_ptr<Being>
 	}
 	//AI governing Sphinx
 	else if (monst_name == "Sphinx") {
-		default_attack_AI(current_monst, target_Ptr, weak_target_Ptr);
+		//Choose a random option
+		int attack_select = rand() % 4;
+
+		//Execute attack option
+		if (attack_select == 0) { // Light random attack
+			cout << current_monst->get_name() << " attacks " << target_Ptr->get_name() << "!\n";
+			current_monst->std_attack(target_Ptr, 0);
+		}
+		else if (attack_select == 1) { // Light random attack
+			cout << current_monst->get_name() << " attacks and stuns " << target_Ptr->get_name() << "!\n";
+			target_Ptr->stun();
+			current_monst->std_attack(target_Ptr, 0);
+		}
+		else if (attack_select == 2) { // Heavy random attack
+			cout << current_monst->get_name() << " attacks and stuns " << target_Ptr->get_name() << "!\n";
+			target_Ptr->stun();
+			current_monst->std_attack(target_Ptr, 2);
+		}
+		else if (attack_select == 3) { // Light target weakest attack
+			cout << current_monst->get_name() << " attacks " << weak_target_Ptr->get_name() << "!\n";
+			current_monst->std_attack(weak_target_Ptr, 0);
+		}
 	}
 	//AI governing Mummy
 	else if (monst_name == "Mummy") {
